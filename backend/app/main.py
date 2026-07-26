@@ -112,9 +112,11 @@ def create_app(
     async def analyze(request: Request, image: UploadFile = File(...)) -> AnalysisResponse:
         principal: Principal = request.state.principal
         if not (image.content_type or "").startswith("image/"):
+            emit_audit("analysis_requested", request, principal, "rejected", reason="unsupported_media_type")
             raise HTTPException(status_code=415, detail="Please upload an image file.")
         contents = await image.read()
         if len(contents) > settings.max_upload_bytes:
+            emit_audit("analysis_requested", request, principal, "rejected", reason="upload_too_large")
             raise HTTPException(status_code=413, detail="Image exceeds the configured upload limit.")
         try:
             features = inspect_image(contents)
@@ -123,10 +125,14 @@ def create_app(
             raise HTTPException(status_code=422, detail="The uploaded file is not a readable image.") from exc
         vision_context = None
         provenance = ProvenanceReport(status="not_checked")
-        if app.state.provenance_provider:
-            provenance = await app.state.provenance_provider.verify(contents, image.content_type or "image/*")
-        if app.state.vision_provider:
-            vision_context = await app.state.vision_provider.analyze(contents, image.content_type or "image/*")
+        try:
+            if app.state.provenance_provider:
+                provenance = await app.state.provenance_provider.verify(contents, image.content_type or "image/*")
+            if app.state.vision_provider:
+                vision_context = await app.state.vision_provider.analyze(contents, image.content_type or "image/*")
+        except HTTPException as exc:
+            emit_audit("analysis_requested", request, principal, "rejected", reason="internal_provider_failure", status_code=exc.status_code)
+            raise
         emit_audit("analysis_requested", request, principal, "success", mime_type=image.content_type, bytes=len(contents))
         return {
             "analysis_id": request.state.request_id,

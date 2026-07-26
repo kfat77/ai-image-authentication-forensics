@@ -100,6 +100,17 @@ def test_oversized_request_is_rejected_before_multipart_parsing() -> None:
     assert response.json()["detail"] == "Request exceeds the configured size limit."
 
 
+def test_unsupported_content_type_is_rejected() -> None:
+    settings = Settings(environment="production", clients=(ApiClient("agency-a", "analysis-secret", "analyst"),))
+    client = TestClient(create_app(settings))
+    response = client.post(
+        "/v1/analyze",
+        headers={"X-API-Key": "analysis-secret"},
+        files={"image": ("report.pdf", b"not-an-image", "application/pdf")},
+    )
+    assert response.status_code == 415
+
+
 def test_non_numeric_content_length_is_rejected() -> None:
     settings = Settings(environment="production", clients=(ApiClient("agency-a", "analysis-secret", "analyst"),))
     client = TestClient(create_app(settings))
