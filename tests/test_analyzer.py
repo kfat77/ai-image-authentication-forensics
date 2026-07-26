@@ -1,6 +1,8 @@
 import asyncio
 from io import BytesIO
 
+import pytest
+
 from fastapi import HTTPException
 from PIL import Image
 from fastapi.testclient import TestClient
@@ -101,3 +103,20 @@ def test_internal_vision_context_enriches_reconstruction_without_persisting_imag
     payload = response.json()
     assert payload["vision_context"]["tags"] == ["waterfront", "blue hour"]
     assert "municipal waterfront" in payload["candidates"][0]["prompt"]
+
+
+def test_production_requires_an_identity_configuration(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.delenv("APP_API_KEYS", raising=False)
+    monkeypatch.delenv("APP_OIDC_ISSUER", raising=False)
+    monkeypatch.delenv("APP_OIDC_AUDIENCE", raising=False)
+    monkeypatch.delenv("APP_OIDC_JWKS_URL", raising=False)
+    with pytest.raises(RuntimeError, match="Production requires"):
+        Settings.from_env()
+
+
+def test_vision_provider_configuration_requires_https_and_a_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("APP_VISION_PROVIDER_URL", "http://vision.example.gov/analyze")
+    monkeypatch.setenv("APP_VISION_PROVIDER_TOKEN", "token")
+    with pytest.raises(RuntimeError, match="HTTPS"):
+        Settings.from_env()

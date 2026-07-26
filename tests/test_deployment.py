@@ -20,6 +20,9 @@ def test_deployment_has_restricted_runtime_and_ephemeral_upload_storage() -> Non
     assert container["securityContext"]["capabilities"]["drop"] == ["ALL"]
     assert pod_spec["volumes"][0]["emptyDir"]["medium"] == "Memory"
     assert all("value" not in env or "SECRET" not in env["name"] for env in container["env"])
+    env = {item["name"]: item for item in container["env"]}
+    assert env["APP_VISION_PROVIDER_URL"]["valueFrom"]["configMapKeyRef"]["optional"] is True
+    assert env["APP_VISION_PROVIDER_TOKEN"]["valueFrom"]["secretKeyRef"]["optional"] is True
 
 
 def test_network_policy_limits_ingress_and_egress() -> None:

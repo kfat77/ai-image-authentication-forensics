@@ -62,11 +62,29 @@ spec:
                   name: ai-photo-reconstructor-config
                   key: APP_OIDC_JWKS_URL
                   optional: true
+            - name: APP_OIDC_ROLE_CLAIM
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_OIDC_ROLE_CLAIM
+                  optional: true
+            - name: APP_VISION_PROVIDER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_VISION_PROVIDER_URL
+                  optional: true
             - name: APP_API_KEYS
               valueFrom:
                 secretKeyRef:
                   name: ai-photo-reconstructor-runtime
                   key: APP_API_KEYS
+                  optional: true
+            - name: APP_VISION_PROVIDER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ai-photo-reconstructor-runtime
+                  key: APP_VISION_PROVIDER_TOKEN
                   optional: true
           securityContext:
             allowPrivilegeEscalation: false
