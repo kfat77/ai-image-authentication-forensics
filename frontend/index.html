@@ -14,6 +14,8 @@
       <section class="upload-card">
         <label for="image">选择图片（最大 10 MB）</label>
         <input id="image" type="file" accept="image/*" />
+        <label for="api-key">API 密钥（仅在生产环境需要，不会保存）</label>
+        <input id="api-key" type="password" autocomplete="off" />
         <button id="analyze">开始拆解</button>
         <p id="status" role="status"></p>
       </section>

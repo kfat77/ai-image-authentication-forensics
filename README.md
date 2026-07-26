@@ -1,6 +1,6 @@
 # AI Photo Reconstructor
 
-一个用于**反向拆解 AI 图片**的开源 MVP：上传一张图片，获得可编辑的视觉描述、候选生图模型配置，以及可用于重新生成相似画面的提示词。
+一个用于**反向拆解 AI 图片**的开源服务：上传一张图片，获得可编辑的视觉描述、候选生图模型配置，以及可用于重新生成相似画面的提示词。
 
 > 本项目不声称能确定一张图片的原始模型或恢复专有模型的内部权重。输出是基于画面特征的**概率化重建建议**。
 
@@ -10,6 +10,7 @@
 - 以视觉启发式推断摄影/插画风格、镜头感、光线、构图。
 - 为 SDXL、FLUX、Midjourney 与 DALL·E 生成各自格式的提示词和参数建议。
 - 提供轻量 Web 界面与 JSON API。
+- 生产环境 API 密钥与角色、无持久化图片处理、最小化审计事件、上传限制和安全响应头。
 
 ## 运行
 
@@ -34,9 +35,14 @@ python -m http.server 5173
 
 `POST /analyze`，表单字段为 `image`。响应包含 `analysis`、`candidates` 与 `disclaimer`。
 
+## 机构部署基线
+
+生产环境必须设置 `APP_ENV=production` 和 `APP_API_KEYS`；每项密钥格式是 `client_id:secret:role`，角色可为 `analyst` 或 `operator`。复制 `.env.example` 作为配置参考，绝不可提交真实密钥。
+
+完整的已实现控制、部署前必需控制和数据流边界见 [安全基线](docs/security-baseline.md) 与 [运行手册](docs/operations.md)。这些文档不构成任何政府认证或合规承诺。
+
 ## 后续演进
 
 - 接入 BLIP / LLaVA 等视觉语言模型，替代 MVP 启发式描述。
 - 用带来源标签的数据集训练模型来源分类器，并报告置信区间与数据集边界。
 - 增加 ComfyUI / Automatic1111 工作流导出和 A/B 再生成评估。
-

@@ -7,8 +7,10 @@ document.querySelector("#analyze").addEventListener("click", async () => {
   if (!file) return (status.textContent = "请先选择一张图片。");
   status.textContent = "正在分析…";
   const body = new FormData(); body.append("image", file);
+  const apiKey = document.querySelector("#api-key").value;
   try {
-    const response = await fetch(apiUrl, { method: "POST", body });
+    const headers = apiKey ? { "X-API-Key": apiKey } : {};
+    const response = await fetch(apiUrl, { method: "POST", body, headers });
     const data = await response.json();
     if (!response.ok) throw new Error(data.detail || "分析失败");
     document.querySelector("#analysis").innerHTML = Object.entries(data.analysis)
