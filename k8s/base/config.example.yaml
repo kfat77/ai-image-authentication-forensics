@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-photo-reconstructor-config
+  namespace: ai-photo-reconstructor
+data:
+  APP_ALLOWED_ORIGINS: https://reconstructor.example.gov
+  # Set all three OIDC fields or omit all three and provide APP_API_KEYS through the external secret.
+  APP_OIDC_ISSUER: https://identity.example.gov
+  APP_OIDC_AUDIENCE: ai-photo-reconstructor
+  APP_OIDC_JWKS_URL: https://identity.example.gov/.well-known/jwks.json

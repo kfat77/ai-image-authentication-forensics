@@ -43,6 +43,8 @@ python -m http.server 5173
 
 每次推送和 Pull Request 都会运行 Python 3.11/3.12 的测试、依赖一致性检查、编译检查与 Docker 镜像构建；Dependabot 每周检查依赖更新。
 
+面向机构集群的 Kubernetes 基线在 [k8s/README.md](k8s/README.md)，含受限运行时、HPA、PDB、资源边界和入口/出口网络策略。部署机构仍须替换镜像、接入 Secret 管理、调整网关标签并在目标环境演练。
+
 ## 后续演进
 
 - 接入 BLIP / LLaVA 等视觉语言模型，替代 MVP 启发式描述。

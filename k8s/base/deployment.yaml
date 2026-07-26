@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-photo-reconstructor
+  namespace: ai-photo-reconstructor
+  labels:
+    app.kubernetes.io/name: ai-photo-reconstructor
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ai-photo-reconstructor
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ai-photo-reconstructor
+    spec:
+      serviceAccountName: ai-photo-reconstructor
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: api
+          image: ghcr.io/replace-me/ai-photo-reconstructor:0.2.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: APP_ENV
+              value: production
+            - name: APP_ALLOWED_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_ALLOWED_ORIGINS
+            - name: APP_OIDC_ISSUER
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_OIDC_ISSUER
+                  optional: true
+            - name: APP_OIDC_AUDIENCE
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_OIDC_AUDIENCE
+                  optional: true
+            - name: APP_OIDC_JWKS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_OIDC_JWKS_URL
+                  optional: true
+            - name: APP_API_KEYS
+              valueFrom:
+                secretKeyRef:
+                  name: ai-photo-reconstructor-runtime
+                  key: APP_API_KEYS
+                  optional: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          volumeMounts:
+            - name: temporary-files
+              mountPath: /tmp
+      volumes:
+        - name: temporary-files
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
