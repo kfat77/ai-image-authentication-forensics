@@ -12,6 +12,7 @@ from PIL import Image, UnidentifiedImageError
 from .analyzer import inspect_image
 from .prompts import make_candidates
 from .provenance import C2paVerificationProvider, ProvenanceProvider, ProvenanceReport
+from .schemas import AnalysisResponse, HealthResponse, ReadinessResponse
 from .security import OidcVerifier, Principal, RateLimiter, TokenVerifier, authenticate, configure_audit_logger, emit_audit, require_role
 from .settings import Settings
 from .vision import InternalVisionProvider, VisionProvider
@@ -30,7 +31,7 @@ def create_app(
     Image.MAX_IMAGE_PIXELS = settings.max_image_pixels
     app = FastAPI(
         title="AI Photo Reconstructor",
-        version="0.2.0",
+        version="0.4.0",
         docs_url=None if settings.production else "/docs",
         redoc_url=None if settings.production else "/redoc",
     )
@@ -54,10 +55,10 @@ def create_app(
         host = (request.url.hostname or "").lower()
         if "*" not in settings.allowed_hosts and host not in settings.allowed_hosts:
             response = JSONResponse(status_code=400, content={"detail": "Host is not allowed."})
-        elif request.url.path in {"/analyze", "/ready"}:
+        elif request.url.path in {"/analyze", "/v1/analyze", "/ready"}:
             try:
                 principal = await authenticate(request, settings, app.state.token_verifier)
-                if request.url.path == "/analyze":
+                if request.url.path in {"/analyze", "/v1/analyze"}:
                     require_role(principal, "analyst")
                     app.state.limiter.check(principal.client_id)
                 else:
@@ -82,18 +83,19 @@ def create_app(
     async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
         return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail}, headers=exc.headers)
 
-    @app.get("/health")
-    def health() -> dict[str, str]:
+    @app.get("/health", response_model=HealthResponse)
+    def health() -> HealthResponse:
         return {"status": "ok"}
 
-    @app.get("/ready")
-    def ready(request: Request) -> dict[str, str]:
+    @app.get("/ready", response_model=ReadinessResponse)
+    def ready(request: Request) -> ReadinessResponse:
         principal: Principal = request.state.principal
         emit_audit("readiness_checked", request, principal, "success")
         return {"status": "ready", "environment": settings.environment}
 
-    @app.post("/analyze")
-    async def analyze(request: Request, image: UploadFile = File(...)) -> dict:
+    @app.post("/analyze", response_model=AnalysisResponse, deprecated=True)
+    @app.post("/v1/analyze", response_model=AnalysisResponse)
+    async def analyze(request: Request, image: UploadFile = File(...)) -> AnalysisResponse:
         principal: Principal = request.state.principal
         if not (image.content_type or "").startswith("image/"):
             raise HTTPException(status_code=415, detail="Please upload an image file.")

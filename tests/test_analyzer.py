@@ -50,6 +50,14 @@ def test_protected_analysis_emits_safe_response_headers() -> None:
     assert payload["provenance"]["status"] == "not_checked"
 
 
+def test_v1_analysis_contract_is_published_in_openapi() -> None:
+    client = TestClient(create_app(Settings(environment="development")))
+    document = client.get("/openapi.json").json()
+    assert "/v1/analyze" in document["paths"]
+    assert document["paths"]["/analyze"]["post"]["deprecated"] is True
+    assert "AnalysisResponse" in document["components"]["schemas"]
+
+
 def test_role_and_rate_limit_are_enforced() -> None:
     settings = Settings(
         environment="production",

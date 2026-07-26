@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:8000/analyze";
+const apiUrl = "http://localhost:8000/v1/analyze";
 const status = document.querySelector("#status");
 const results = document.querySelector("#results");
 

@@ -33,7 +33,7 @@ python -m http.server 5173
 
 ## API
 
-`POST /analyze`，表单字段为 `image`。响应包含 `analysis`、`candidates` 与 `disclaimer`。
+`POST /v1/analyze`，表单字段为 `image`。响应包含 `analysis`、`provenance`、`candidates` 与 `disclaimer`；旧版 `/analyze` 暂时保留但已弃用。开发环境可在 `/docs` 查看 OpenAPI 契约。
 
 ## 机构部署基线
 
