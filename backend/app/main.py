@@ -11,13 +11,13 @@ from PIL import Image, UnidentifiedImageError
 
 from .analyzer import inspect_image
 from .prompts import make_candidates
-from .security import Principal, RateLimiter, authenticate, configure_audit_logger, emit_audit, require_role
+from .security import OidcVerifier, Principal, RateLimiter, TokenVerifier, authenticate, configure_audit_logger, emit_audit, require_role
 from .settings import Settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+def create_app(settings: Settings | None = None, token_verifier: TokenVerifier | None = None) -> FastAPI:
     settings = settings or Settings.from_env()
     configure_audit_logger()
     Image.MAX_IMAGE_PIXELS = settings.max_image_pixels
@@ -29,11 +29,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
     app.state.settings = settings
     app.state.limiter = RateLimiter(settings.requests_per_minute)
+    app.state.token_verifier = token_verifier or (OidcVerifier(settings.oidc) if settings.oidc else None)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(settings.allowed_origins),
         allow_methods=["POST", "GET"],
-        allow_headers=["Content-Type", "X-API-Key", "X-Request-ID"],
+        allow_headers=["Authorization", "Content-Type", "X-API-Key", "X-Request-ID"],
     )
 
     @app.middleware("http")
@@ -43,7 +44,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         started = time.perf_counter()
         if request.url.path in {"/analyze", "/ready"}:
             try:
-                principal = authenticate(request, settings)
+                principal = await authenticate(request, settings, app.state.token_verifier)
                 if request.url.path == "/analyze":
                     require_role(principal, "analyst")
                     app.state.limiter.check(principal.client_id)
@@ -51,7 +52,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     require_role(principal, "operator")
                 request.state.principal = principal
             except HTTPException as exc:
-                principal = Principal(client_id="unauthenticated", role="none")
+                principal = Principal(client_id="unauthenticated", roles=frozenset())
                 emit_audit("access_denied", request, principal, "rejected", status_code=exc.status_code)
                 response = JSONResponse(status_code=exc.status_code, content={"detail": exc.detail}, headers=exc.headers)
             else:

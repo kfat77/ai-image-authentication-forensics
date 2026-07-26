@@ -1,12 +1,15 @@
+import asyncio
 from io import BytesIO
 
+from fastapi import HTTPException
 from PIL import Image
 from fastapi.testclient import TestClient
 
 from app.analyzer import inspect_image
 from app.main import create_app
 from app.prompts import make_candidates
-from app.settings import ApiClient, Settings
+from app.security import OidcVerifier
+from app.settings import ApiClient, OidcSettings, Settings
 
 
 def test_image_inspection_and_candidates() -> None:
@@ -53,3 +56,30 @@ def test_role_and_rate_limit_are_enforced() -> None:
     assert client.get("/ready", headers={"X-API-Key": "analyst-secret"}).status_code == 403
     assert client.post("/analyze", headers={"X-API-Key": "analyst-secret"}, files={"image": png_upload()}).status_code == 200
     assert client.post("/analyze", headers={"X-API-Key": "analyst-secret"}, files={"image": png_upload()}).status_code == 429
+
+
+class FakeTokenVerifier:
+    async def verify(self, token: str) -> dict[str, object]:
+        assert token == "trusted-token"
+        return {"sub": "case.worker@example.gov", "roles": ["analyst", "operator"]}
+
+
+def test_oidc_claims_are_mapped_to_authorised_roles() -> None:
+    settings = Settings(
+        environment="production",
+        oidc=OidcSettings("https://identity.example.gov", "image-service", "https://identity.example.gov/jwks"),
+    )
+    client = TestClient(create_app(settings, token_verifier=FakeTokenVerifier()))
+    headers = {"Authorization": "Bearer trusted-token"}
+    assert client.get("/ready", headers=headers).status_code == 200
+    assert client.post("/analyze", headers=headers, files={"image": png_upload()}).status_code == 200
+
+
+def test_malformed_oidc_token_is_rejected_without_a_provider_call() -> None:
+    verifier = OidcVerifier(OidcSettings("https://identity.example.gov", "image-service", "https://identity.example.gov/jwks"))
+    try:
+        asyncio.run(verifier.verify("not-a-jwt"))
+    except HTTPException as exc:
+        assert exc.status_code == 401
+    else:
+        raise AssertionError("Malformed token must be rejected")

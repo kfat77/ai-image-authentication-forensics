@@ -5,7 +5,7 @@ This checklist defines evidence needed before an institution can decide the serv
 | Gate | Required evidence | Current repository state |
 | --- | --- | --- |
 | Data governance | Approved classification, DPIA/PIA, retention schedule, processor agreements | Deployment responsibility; documented boundary only |
-| Identity and access | Organisation SSO/service identity, secret rotation, revocation and least privilege | API-key roles are a baseline; SSO not implemented |
+| Identity and access | Organisation SSO/service identity, secret rotation, revocation and least privilege | API-key roles and OIDC JWT/role mapping are implemented; identity-team integration evidence still required |
 | Auditability | Central immutable audit sink, access review and retrieval test | Structured stdout events; external sink required |
 | Operational resilience | HA design, recovery objective, monitoring, on-call and disaster exercise | Health/readiness endpoints and runbook only |
 | Security assurance | Threat model, independent penetration test, SBOM, signed builds and vulnerability remediation | Container baseline and CI build/test gate; remaining evidence required |

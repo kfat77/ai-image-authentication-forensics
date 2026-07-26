@@ -15,6 +15,10 @@ docker run --rm -p 8000:8000 \
 
 Use `GET /health` for liveness. Use `GET /ready` with an `operator` API key for authenticated readiness. Use `POST /analyze` with an `analyst` API key.
 
+## Organisational SSO
+
+For bearer-token integration, set `APP_OIDC_ISSUER`, `APP_OIDC_AUDIENCE`, and `APP_OIDC_JWKS_URL` together. The service validates RS256 tokens and requires `exp`, `iat`, `sub`, and a configurable roles claim (`APP_OIDC_ROLE_CLAIM`, default `roles`). Only the values `analyst` and `operator` grant access. Validate the issuer's exact token format and claim-mapping contract before enabling it.
+
 ## Audit collection
 
 Application audit events are emitted to standard output. Ship stdout to the organisation's central audit platform. Restrict access, make the sink append-only, and configure retention under the approved records schedule.

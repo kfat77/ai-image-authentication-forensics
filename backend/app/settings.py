@@ -13,12 +13,21 @@ class ApiClient:
 
 
 @dataclass(frozen=True)
+class OidcSettings:
+    issuer: str
+    audience: str
+    jwks_url: str
+    role_claim: str = "roles"
+
+
+@dataclass(frozen=True)
 class Settings:
     environment: str = "development"
     max_upload_bytes: int = 10 * 1024 * 1024
     max_image_pixels: int = 40_000_000
     allowed_origins: tuple[str, ...] = ("http://localhost:5173",)
     clients: tuple[ApiClient, ...] = ()
+    oidc: OidcSettings | None = None
     requests_per_minute: int = 30
 
     @property
@@ -29,11 +38,12 @@ class Settings:
     def from_env(cls) -> "Settings":
         raw_clients = os.getenv("APP_API_KEYS", "").strip()
         clients = tuple(_parse_clients(raw_clients))
+        oidc = _parse_oidc()
         environment = os.getenv("APP_ENV", "development").lower()
         if environment not in {"development", "test", "production"}:
             raise RuntimeError("APP_ENV must be development, test, or production.")
-        if environment == "production" and not clients:
-            raise RuntimeError("APP_API_KEYS is required in production.")
+        if environment == "production" and not (clients or oidc):
+            raise RuntimeError("Production requires APP_API_KEYS or a complete OIDC configuration.")
         origins = tuple(origin.strip() for origin in os.getenv("APP_ALLOWED_ORIGINS", "http://localhost:5173").split(",") if origin.strip())
         return cls(
             environment=environment,
@@ -41,6 +51,7 @@ class Settings:
             max_image_pixels=int(os.getenv("APP_MAX_IMAGE_PIXELS", "40000000")),
             allowed_origins=origins,
             clients=clients,
+            oidc=oidc,
             requests_per_minute=int(os.getenv("APP_REQUESTS_PER_MINUTE", "30")),
         )
 
@@ -56,3 +67,16 @@ def _parse_clients(raw_clients: str) -> list[ApiClient]:
             raise RuntimeError("API-key roles must be analyst or operator.")
         clients.append(ApiClient(client_id, secret, role))
     return clients
+
+
+def _parse_oidc() -> OidcSettings | None:
+    values = {
+        "issuer": os.getenv("APP_OIDC_ISSUER", "").strip(),
+        "audience": os.getenv("APP_OIDC_AUDIENCE", "").strip(),
+        "jwks_url": os.getenv("APP_OIDC_JWKS_URL", "").strip(),
+    }
+    if not any(values.values()):
+        return None
+    if not all(values.values()):
+        raise RuntimeError("APP_OIDC_ISSUER, APP_OIDC_AUDIENCE and APP_OIDC_JWKS_URL must be set together.")
+    return OidcSettings(**values, role_claim=os.getenv("APP_OIDC_ROLE_CLAIM", "roles").strip() or "roles")

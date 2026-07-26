@@ -5,7 +5,7 @@ This document defines the implemented minimum baseline, not a certification clai
 ## Implemented controls
 
 - **No image persistence:** the API handles image bytes in memory only. It does not save uploads, prompts or generated candidates.
-- **Authenticated production API:** `APP_ENV=production` refuses to start without `APP_API_KEYS`. Keys have explicit `analyst` and `operator` roles.
+- **Authenticated production API:** `APP_ENV=production` refuses to start without API keys or a complete OIDC configuration. Keys and OIDC role claims map to explicit `analyst` and `operator` roles.
 - **Abuse limits:** uploads have byte and pixel limits; a process-local per-client rate guard limits analysis requests. Deploy a shared gateway limiter for multiple replicas.
 - **Privacy-preserving audit events:** successful/rejected analysis and readiness operations emit structured metadata (client ID, request ID, route, outcome, MIME type and byte count). Image bytes, prompt text and secrets are excluded.
 - **Browser/API hardening:** an allowlisted CORS policy, `no-store`, `nosniff`, `no-referrer`, correlation IDs and disabled API documentation in production are enabled.
@@ -15,7 +15,7 @@ This document defines the implemented minimum baseline, not a certification clai
 
 The repository deliberately does not attempt to replace institutional controls. Before handling non-public data, deploy behind a managed API gateway/WAF and configure:
 
-1. TLS termination, an organisational identity provider or managed secret store, rotation and immediate revocation for API credentials.
+1. TLS termination, an organisational identity provider or managed secret store, rotation and immediate revocation for API credentials. OIDC integration accepts only RS256 JWTs from the configured issuer/audience/JWKS endpoint; validate its claim and group mapping with the identity team.
 2. Central, append-only audit collection with access restrictions and a retention schedule approved by the data owner.
 3. Network segmentation, vulnerability scanning, container image signing, patch SLAs, backups for configuration, and incident response ownership.
 4. A jurisdiction-specific privacy impact assessment, data classification decision, accessibility review and model-risk assessment.
