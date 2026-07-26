@@ -10,6 +10,7 @@ docker run --rm -p 8000:8000 \
   -e APP_ENV=production \
   -e APP_API_KEYS='agency-analyst:long-random-secret:analyst,agency-operator:another-long-random-secret:operator' \
   -e APP_ALLOWED_ORIGINS='https://reconstructor.example.gov' \
+  -e APP_ALLOWED_HOSTS='reconstructor.example.gov' \
   ai-photo-reconstructor:0.2.0
 ```
 

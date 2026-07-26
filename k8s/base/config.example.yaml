@@ -5,6 +5,7 @@ metadata:
   namespace: ai-photo-reconstructor
 data:
   APP_ALLOWED_ORIGINS: https://reconstructor.example.gov
+  APP_ALLOWED_HOSTS: reconstructor.example.gov
   # Set all three OIDC fields or omit all three and provide APP_API_KEYS through the external secret.
   APP_OIDC_ISSUER: https://identity.example.gov
   APP_OIDC_AUDIENCE: ai-photo-reconstructor

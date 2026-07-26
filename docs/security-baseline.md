@@ -11,6 +11,7 @@ This document defines the implemented minimum baseline, not a certification clai
 - **Abuse limits:** uploads have byte and pixel limits; a process-local per-client rate guard limits analysis requests. Deploy a shared gateway limiter for multiple replicas.
 - **Privacy-preserving audit events:** successful/rejected analysis and readiness operations emit structured metadata (client ID, request ID, route, outcome, MIME type and byte count). Image bytes, prompt text and secrets are excluded.
 - **Browser/API hardening:** an allowlisted CORS policy, `no-store`, `nosniff`, `no-referrer`, correlation IDs and disabled API documentation in production are enabled.
+- **Host boundary:** production requires `APP_ALLOWED_HOSTS`; requests sent with an unapproved `Host` are rejected before authentication or body parsing.
 - **Deployment posture:** the supplied image runs as a non-root user and exposes a separate unauthenticated `/health` endpoint for orchestration.
 
 ## Required deployment controls

@@ -63,6 +63,18 @@ def test_role_and_rate_limit_are_enforced() -> None:
     assert client.post("/analyze", headers={"X-API-Key": "analyst-secret"}, files={"image": png_upload()}).status_code == 429
 
 
+def test_production_host_allowlist_rejects_unrouted_requests() -> None:
+    settings = Settings(
+        environment="production",
+        allowed_hosts=("reconstructor.example.gov",),
+        clients=(ApiClient("agency-a", "analysis-secret", "analyst"),),
+    )
+    client = TestClient(create_app(settings))
+    response = client.get("/health", headers={"Host": "wrong.example.gov"})
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Host is not allowed."
+
+
 class FakeTokenVerifier:
     async def verify(self, token: str) -> dict[str, object]:
         assert token == "trusted-token"

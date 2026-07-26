@@ -39,6 +39,7 @@ class Settings:
     max_upload_bytes: int = 10 * 1024 * 1024
     max_image_pixels: int = 40_000_000
     allowed_origins: tuple[str, ...] = ("http://localhost:5173",)
+    allowed_hosts: tuple[str, ...] = ("*",)
     clients: tuple[ApiClient, ...] = ()
     oidc: OidcSettings | None = None
     vision_provider: VisionProviderSettings | None = None
@@ -62,11 +63,15 @@ class Settings:
         if environment == "production" and not (clients or oidc):
             raise RuntimeError("Production requires APP_API_KEYS or a complete OIDC configuration.")
         origins = tuple(origin.strip() for origin in os.getenv("APP_ALLOWED_ORIGINS", "http://localhost:5173").split(",") if origin.strip())
+        hosts = tuple(host.strip().lower() for host in os.getenv("APP_ALLOWED_HOSTS", "").split(",") if host.strip())
+        if environment == "production" and not hosts:
+            raise RuntimeError("APP_ALLOWED_HOSTS is required in production.")
         return cls(
             environment=environment,
             max_upload_bytes=int(os.getenv("APP_MAX_UPLOAD_BYTES", str(10 * 1024 * 1024))),
             max_image_pixels=int(os.getenv("APP_MAX_IMAGE_PIXELS", "40000000")),
             allowed_origins=origins,
+            allowed_hosts=hosts or ("*",),
             clients=clients,
             oidc=oidc,
             vision_provider=vision_provider,

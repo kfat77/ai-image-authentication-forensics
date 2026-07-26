@@ -44,6 +44,11 @@ spec:
                 configMapKeyRef:
                   name: ai-photo-reconstructor-config
                   key: APP_ALLOWED_ORIGINS
+            - name: APP_ALLOWED_HOSTS
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_ALLOWED_HOSTS
             - name: APP_OIDC_ISSUER
               valueFrom:
                 configMapKeyRef:

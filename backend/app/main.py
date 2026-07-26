@@ -51,7 +51,10 @@ def create_app(
         supplied_request_id = request.headers.get("x-request-id", "")
         request.state.request_id = supplied_request_id[:128] if supplied_request_id else str(uuid.uuid4())
         started = time.perf_counter()
-        if request.url.path in {"/analyze", "/ready"}:
+        host = (request.url.hostname or "").lower()
+        if "*" not in settings.allowed_hosts and host not in settings.allowed_hosts:
+            response = JSONResponse(status_code=400, content={"detail": "Host is not allowed."})
+        elif request.url.path in {"/analyze", "/ready"}:
             try:
                 principal = await authenticate(request, settings, app.state.token_verifier)
                 if request.url.path == "/analyze":
