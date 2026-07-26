@@ -8,7 +8,7 @@ This checklist defines evidence needed before an institution can decide the serv
 | Identity and access | Organisation SSO/service identity, secret rotation, revocation and least privilege | API-key roles are a baseline; SSO not implemented |
 | Auditability | Central immutable audit sink, access review and retrieval test | Structured stdout events; external sink required |
 | Operational resilience | HA design, recovery objective, monitoring, on-call and disaster exercise | Health/readiness endpoints and runbook only |
-| Security assurance | Threat model, independent penetration test, SBOM, signed builds and vulnerability remediation | Container baseline only |
+| Security assurance | Threat model, independent penetration test, SBOM, signed builds and vulnerability remediation | Container baseline and CI build/test gate; remaining evidence required |
 | Model assurance | Evaluation report, use-policy approval, reviewer training and change control | Governance boundary and human-review contract included |
 | Accessibility and procurement | Accessibility assessment, localisation, records/publication obligations, legal/procurement approval | Not implemented |
 

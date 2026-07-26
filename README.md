@@ -41,6 +41,8 @@ python -m http.server 5173
 
 完整的已实现控制、部署前必需控制和数据流边界见 [安全基线](docs/security-baseline.md)、[运行手册](docs/operations.md)、[模型治理](docs/model-governance.md) 与 [机构保障路线图](docs/assurance-roadmap.md)。这些文档不构成任何政府认证或合规承诺。
 
+每次推送和 Pull Request 都会运行 Python 3.11/3.12 的测试、依赖一致性检查、编译检查与 Docker 镜像构建；Dependabot 每周检查依赖更新。
+
 ## 后续演进
 
 - 接入 BLIP / LLaVA 等视觉语言模型，替代 MVP 启发式描述。
