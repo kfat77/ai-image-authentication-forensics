@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Photo Reconstructor</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">EXPLAINABLE IMAGE RECONSTRUCTION</p>
+      <h1>把图片拆成可编辑的生图配方。</h1>
+      <p class="intro">上传图片，得到画面特征、候选模型配置与可直接改写的提示词。</p>
+      <section class="upload-card">
+        <label for="image">选择图片（最大 10 MB）</label>
+        <input id="image" type="file" accept="image/*" />
+        <button id="analyze">开始拆解</button>
+        <p id="status" role="status"></p>
+      </section>
+      <section id="results" hidden>
+        <h2>可观察特征</h2><div id="analysis" class="facts"></div>
+        <h2>重建候选</h2><div id="candidates" class="candidates"></div>
+        <p class="notice">结果是概率化建议，不能证明图片的原始模型或还原任何专有模型权重。</p>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

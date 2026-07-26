@@ -1,0 +1,11 @@
+:root { font-family: Inter, system-ui, sans-serif; color: #17212b; background: #f7f4ef; }
+* { box-sizing: border-box; }
+body { margin: 0; } main { max-width: 920px; margin: 0 auto; padding: 76px 24px; }
+.eyebrow { color: #8b4b20; font-size: .75rem; font-weight: 750; letter-spacing: .14em; }
+h1 { font: 700 clamp(2.6rem, 7vw, 5.4rem)/.95 Georgia, serif; max-width: 800px; margin: 18px 0; }
+.intro { font-size: 1.15rem; color: #52606d; max-width: 600px; }
+.upload-card, article { background: #fff; border: 1px solid #e8dfd4; border-radius: 16px; padding: 24px; box-shadow: 0 12px 35px #634a3010; }
+.upload-card { margin: 42px 0; display: grid; gap: 14px; } input, button { font: inherit; } button { width: fit-content; background: #17212b; color: white; border: 0; border-radius: 8px; padding: 10px 17px; cursor: pointer; }
+#status { min-height: 1.5em; margin: 0; color: #52606d; } h2 { margin-top: 42px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }.facts div { background: #ebe3d7; border-radius: 9px; padding: 13px; }.facts span { display: block; color: #68727b; font-size: .78rem; text-transform: capitalize; }.facts strong { display:block; margin-top: 5px; }
+.candidates { display: grid; gap: 16px; }.model { display:flex; align-items:center; justify-content:space-between; gap:12px; }.model h3 { margin:0; }.model span { color:#8b4b20; font-size:.85rem; } article p { line-height:1.5; } pre { white-space:pre-wrap; background:#17212b; color:#d5e2ea; padding:14px; border-radius:8px; overflow:auto; }.notice { color:#68727b; font-size:.9rem; margin-top:24px; }
