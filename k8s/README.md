@@ -16,4 +16,4 @@ Render the baseline after providing the external ConfigMap and secret mechanism:
 kubectl kustomize k8s/base
 ```
 
-The deployment mounts a memory-backed ephemeral `/tmp` volume to support multipart uploads while retaining a read-only root filesystem. It does not persist images.
+The deployment uses TCP probes rather than HTTP probes because production Host allowlists may intentionally reject kubelet requests addressed to a Pod IP. It mounts a memory-backed ephemeral `/tmp` volume to support multipart uploads while retaining a read-only root filesystem. It does not persist images.

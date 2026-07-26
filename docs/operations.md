@@ -14,7 +14,7 @@ docker run --rm -p 8000:8000 \
   ai-photo-reconstructor:0.2.0
 ```
 
-Use `GET /health` for liveness. Use `GET /ready` with an `operator` API key for authenticated readiness. Use `POST /v1/analyze` with an `analyst` API key. The unversioned `/analyze` route is deprecated and retained only for migration.
+Use `GET /health` through an allowed host for diagnostic liveness. The Kubernetes baseline uses TCP probes so Host allowlists do not interfere with kubelet checks. Use `GET /ready` with an `operator` API key for authenticated readiness. Use `POST /v1/analyze` with an `analyst` API key. The unversioned `/analyze` route is deprecated and retained only for migration.
 
 ## Organisational SSO
 
