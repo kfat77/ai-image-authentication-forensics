@@ -61,15 +61,29 @@ def create_app(
                 if request.url.path in {"/analyze", "/v1/analyze"}:
                     require_role(principal, "analyst")
                     app.state.limiter.check(principal.client_id)
+                    content_length = request.headers.get("content-length")
+                    try:
+                        declared_length = int(content_length) if content_length else None
+                    except ValueError:
+                        emit_audit("analysis_requested", request, principal, "rejected", reason="invalid_content_length")
+                        response = JSONResponse(status_code=400, content={"detail": "Content-Length must be an integer."})
+                    else:
+                        if declared_length is not None and declared_length > settings.max_request_bytes:
+                            emit_audit("analysis_requested", request, principal, "rejected", reason="request_too_large")
+                            response = JSONResponse(status_code=413, content={"detail": "Request exceeds the configured size limit."})
+                        else:
+                            request.state.principal = principal
+                            response = await call_next(request)
                 else:
                     require_role(principal, "operator")
-                request.state.principal = principal
             except HTTPException as exc:
                 principal = Principal(client_id="unauthenticated", roles=frozenset())
                 emit_audit("access_denied", request, principal, "rejected", status_code=exc.status_code)
                 response = JSONResponse(status_code=exc.status_code, content={"detail": exc.detail}, headers=exc.headers)
             else:
-                response = await call_next(request)
+                if request.url.path == "/ready":
+                    request.state.principal = principal
+                    response = await call_next(request)
         else:
             response = await call_next(request)
         response.headers["X-Request-ID"] = request.state.request_id

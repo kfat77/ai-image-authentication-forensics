@@ -28,6 +28,7 @@ def test_deployment_has_restricted_runtime_and_ephemeral_upload_storage() -> Non
     assert env["APP_PROVENANCE_PROVIDER_URL"]["valueFrom"]["configMapKeyRef"]["optional"] is True
     assert env["APP_PROVENANCE_PROVIDER_TOKEN"]["valueFrom"]["secretKeyRef"]["optional"] is True
     assert env["APP_ALLOWED_HOSTS"]["valueFrom"]["configMapKeyRef"]["key"] == "APP_ALLOWED_HOSTS"
+    assert env["APP_MAX_REQUEST_BYTES"]["valueFrom"]["configMapKeyRef"]["key"] == "APP_MAX_REQUEST_BYTES"
 
 
 def test_network_policy_limits_ingress_and_egress() -> None:

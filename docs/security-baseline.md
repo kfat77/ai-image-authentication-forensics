@@ -9,6 +9,7 @@ This document defines the implemented minimum baseline, not a certification clai
 - **Cryptographic provenance boundary:** optional C2PA verification is delegated to an approved HTTPS internal verifier. Only its bounded validation result is returned; visual analysis is never presented as provenance.
 - **Authenticated production API:** `APP_ENV=production` refuses to start without API keys or a complete OIDC configuration. Keys and OIDC role claims map to explicit `analyst` and `operator` roles.
 - **Abuse limits:** uploads have byte and pixel limits; a process-local per-client rate guard limits analysis requests. Deploy a shared gateway limiter for multiple replicas.
+- **Early request rejection:** `Content-Length` is checked before multipart parsing against `APP_MAX_REQUEST_BYTES`; actual uploaded bytes are checked again after parsing to cover chunked requests.
 - **Privacy-preserving audit events:** successful/rejected analysis and readiness operations emit structured metadata (client ID, request ID, route, outcome, MIME type and byte count). Image bytes, prompt text and secrets are excluded.
 - **Browser/API hardening:** an allowlisted CORS policy, `no-store`, `nosniff`, `no-referrer`, correlation IDs and disabled API documentation in production are enabled.
 - **Host boundary:** production requires `APP_ALLOWED_HOSTS`; requests sent with an unapproved `Host` are rejected before authentication or body parsing.

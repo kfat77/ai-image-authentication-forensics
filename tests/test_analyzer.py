@@ -83,6 +83,35 @@ def test_production_host_allowlist_rejects_unrouted_requests() -> None:
     assert response.json()["detail"] == "Host is not allowed."
 
 
+def test_oversized_request_is_rejected_before_multipart_parsing() -> None:
+    settings = Settings(
+        environment="production",
+        max_upload_bytes=100,
+        max_request_bytes=120,
+        clients=(ApiClient("agency-a", "analysis-secret", "analyst"),),
+    )
+    client = TestClient(create_app(settings))
+    response = client.post(
+        "/v1/analyze",
+        content=b"too short to parse but intentionally declared too large",
+        headers={"X-API-Key": "analysis-secret", "Content-Length": "121", "Content-Type": "multipart/form-data; boundary=test"},
+    )
+    assert response.status_code == 413
+    assert response.json()["detail"] == "Request exceeds the configured size limit."
+
+
+def test_non_numeric_content_length_is_rejected() -> None:
+    settings = Settings(environment="production", clients=(ApiClient("agency-a", "analysis-secret", "analyst"),))
+    client = TestClient(create_app(settings))
+    response = client.post(
+        "/v1/analyze",
+        content=b"not a multipart request",
+        headers={"X-API-Key": "analysis-secret", "Content-Length": "not-a-number", "Content-Type": "multipart/form-data; boundary=test"},
+    )
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Content-Length must be an integer."
+
+
 class FakeTokenVerifier:
     async def verify(self, token: str) -> dict[str, object]:
         assert token == "trusted-token"

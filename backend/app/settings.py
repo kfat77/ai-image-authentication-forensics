@@ -37,6 +37,7 @@ class ProvenanceProviderSettings:
 class Settings:
     environment: str = "development"
     max_upload_bytes: int = 10 * 1024 * 1024
+    max_request_bytes: int = 10 * 1024 * 1024 + 64 * 1024
     max_image_pixels: int = 40_000_000
     allowed_origins: tuple[str, ...] = ("http://localhost:5173",)
     allowed_hosts: tuple[str, ...] = ("*",)
@@ -66,9 +67,14 @@ class Settings:
         hosts = tuple(host.strip().lower() for host in os.getenv("APP_ALLOWED_HOSTS", "").split(",") if host.strip())
         if environment == "production" and not hosts:
             raise RuntimeError("APP_ALLOWED_HOSTS is required in production.")
+        max_upload_bytes = int(os.getenv("APP_MAX_UPLOAD_BYTES", str(10 * 1024 * 1024)))
+        max_request_bytes = int(os.getenv("APP_MAX_REQUEST_BYTES", str(max_upload_bytes + 64 * 1024)))
+        if max_request_bytes < max_upload_bytes:
+            raise RuntimeError("APP_MAX_REQUEST_BYTES must not be lower than APP_MAX_UPLOAD_BYTES.")
         return cls(
             environment=environment,
-            max_upload_bytes=int(os.getenv("APP_MAX_UPLOAD_BYTES", str(10 * 1024 * 1024))),
+            max_upload_bytes=max_upload_bytes,
+            max_request_bytes=max_request_bytes,
             max_image_pixels=int(os.getenv("APP_MAX_IMAGE_PIXELS", "40000000")),
             allowed_origins=origins,
             allowed_hosts=hosts or ("*",),
