@@ -39,7 +39,7 @@ python -m http.server 5173
 
 生产环境必须设置 `APP_ENV=production` 和 `APP_API_KEYS`；每项密钥格式是 `client_id:secret:role`，角色可为 `analyst` 或 `operator`。复制 `.env.example` 作为配置参考，绝不可提交真实密钥。
 
-完整的已实现控制、部署前必需控制和数据流边界见 [安全基线](docs/security-baseline.md) 与 [运行手册](docs/operations.md)。这些文档不构成任何政府认证或合规承诺。
+完整的已实现控制、部署前必需控制和数据流边界见 [安全基线](docs/security-baseline.md)、[运行手册](docs/operations.md)、[模型治理](docs/model-governance.md) 与 [机构保障路线图](docs/assurance-roadmap.md)。这些文档不构成任何政府认证或合规承诺。
 
 ## 后续演进
 

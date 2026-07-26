@@ -36,6 +36,10 @@ def test_protected_analysis_emits_safe_response_headers() -> None:
     assert response.headers["cache-control"] == "no-store"
     assert response.headers["x-content-type-options"] == "nosniff"
     assert "x-request-id" in response.headers
+    payload = response.json()
+    assert payload["human_review"]["required"] is True
+    assert "source-model attribution" in payload["methodology"]["does_not_do"]
+    assert "confidence" not in payload["candidates"][0]
 
 
 def test_role_and_rate_limit_are_enforced() -> None:

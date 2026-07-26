@@ -94,8 +94,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             raise HTTPException(status_code=422, detail="The uploaded file is not a readable image.") from exc
         emit_audit("analysis_requested", request, principal, "success", mime_type=image.content_type, bytes=len(contents))
         return {
+            "analysis_id": request.state.request_id,
+            "methodology": {
+                "name": "observable_feature_heuristics",
+                "version": "0.2.0",
+                "inputs": ["dimensions", "aspect ratio", "average colour", "brightness"],
+                "does_not_do": ["source-model attribution", "biometric identification", "recovery of proprietary model internals"],
+            },
             "analysis": features,
             "candidates": make_candidates(features),
+            "human_review": {
+                "required": True,
+                "reason": "Output is a creative reconstruction aid and is not calibrated evidence about an image's origin.",
+            },
             "disclaimer": "These are editable reconstruction suggestions, not a determination of the source model or its proprietary internals.",
         }
 

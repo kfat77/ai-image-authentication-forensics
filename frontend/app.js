@@ -16,8 +16,8 @@ document.querySelector("#analyze").addEventListener("click", async () => {
     document.querySelector("#analysis").innerHTML = Object.entries(data.analysis)
       .map(([key, value]) => `<div><span>${key.replaceAll("_", " ")}</span><strong>${value}</strong></div>`).join("");
     document.querySelector("#candidates").innerHTML = data.candidates.map(candidate => `
-      <article><div class="model"><h3>${candidate.model}</h3><span>${Math.round(candidate.confidence * 100)}% 适配度</span></div>
-      <p>${candidate.prompt}</p><pre>${JSON.stringify(candidate.parameters, null, 2)}</pre></article>`).join("");
+      <article><div class="model"><h3>${candidate.model}</h3></div>
+      <p>${candidate.selection_rationale}</p><p>${candidate.prompt}</p><pre>${JSON.stringify(candidate.parameters, null, 2)}</pre></article>`).join("");
     results.hidden = false; status.textContent = "分析完成。";
   } catch (error) { status.textContent = error.message; }
 });
