@@ -10,6 +10,7 @@ from app.main import create_app
 from app.prompts import make_candidates
 from app.security import OidcVerifier
 from app.settings import ApiClient, OidcSettings, Settings
+from app.vision import VisionContext
 
 
 def test_image_inspection_and_candidates() -> None:
@@ -83,3 +84,20 @@ def test_malformed_oidc_token_is_rejected_without_a_provider_call() -> None:
         assert exc.status_code == 401
     else:
         raise AssertionError("Malformed token must be rejected")
+
+
+class FakeVisionProvider:
+    async def analyze(self, image: bytes, mime_type: str) -> VisionContext:
+        assert image
+        assert mime_type == "image/png"
+        return VisionContext(description="A municipal waterfront at dusk", tags=("waterfront", "blue hour"))
+
+
+def test_internal_vision_context_enriches_reconstruction_without_persisting_image() -> None:
+    settings = Settings(environment="production", clients=(ApiClient("agency-a", "analysis-secret", "analyst"),))
+    client = TestClient(create_app(settings, vision_provider=FakeVisionProvider()))
+    response = client.post("/analyze", headers={"X-API-Key": "analysis-secret"}, files={"image": png_upload()})
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["vision_context"]["tags"] == ["waterfront", "blue hour"]
+    assert "municipal waterfront" in payload["candidates"][0]["prompt"]

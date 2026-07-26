@@ -3,14 +3,18 @@ from __future__ import annotations
 
 from typing import Any
 
+from .vision import VisionContext
 
-def make_candidates(features: dict[str, Any]) -> list[dict[str, Any]]:
+
+def make_candidates(features: dict[str, Any], vision_context: VisionContext | None = None) -> list[dict[str, Any]]:
     core = ", ".join((
         features["composition"],
         features["lighting"],
         features["palette"],
         "high-detail AI image",
     ))
+    if vision_context:
+        core = ", ".join(part for part in (vision_context.description, *vision_context.tags, core) if part)
     ratio = f'{features["width"]}:{features["height"]}'
     return [
         {

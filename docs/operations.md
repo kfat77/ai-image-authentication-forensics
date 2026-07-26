@@ -19,6 +19,10 @@ Use `GET /health` for liveness. Use `GET /ready` with an `operator` API key for 
 
 For bearer-token integration, set `APP_OIDC_ISSUER`, `APP_OIDC_AUDIENCE`, and `APP_OIDC_JWKS_URL` together. The service validates RS256 tokens and requires `exp`, `iat`, `sub`, and a configurable roles claim (`APP_OIDC_ROLE_CLAIM`, default `roles`). Only the values `analyst` and `operator` grant access. Validate the issuer's exact token format and claim-mapping contract before enabling it.
 
+## Internal vision recognition
+
+To enable AI-based visual context, configure `APP_VISION_PROVIDER_URL` and `APP_VISION_PROVIDER_TOKEN` together. The URL must be HTTPS and should resolve only through the approved institutional egress path. The endpoint accepts multipart field `image` and returns JSON in the form `{"description": "...", "tags": ["..."]}`. Its response is used only to enrich editable prompts; it is not provenance evidence or an automated decision.
+
 ## Audit collection
 
 Application audit events are emitted to standard output. Ship stdout to the organisation's central audit platform. Restrict access, make the sink append-only, and configure retention under the approved records schedule.

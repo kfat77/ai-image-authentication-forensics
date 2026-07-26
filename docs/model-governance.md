@@ -2,7 +2,9 @@
 
 ## What the service does
 
-Version 0.2 uses deterministic, observable image features: dimensions, aspect ratio, average RGB colour and brightness. It maps these features to editable prompt templates for several image-generation ecosystems. The response identifies this method and version.
+Version 0.3 uses deterministic, observable image features: dimensions, aspect ratio, average RGB colour and brightness. It maps these features to editable prompt templates for several image-generation ecosystems. The response identifies this method and version.
+
+When `APP_VISION_PROVIDER_URL` and `APP_VISION_PROVIDER_TOKEN` are configured, an institution-approved HTTPS vision endpoint may add a bounded description and tag list. The source image is sent only to that endpoint during the request and is not persisted by this service. The endpoint is part of the institution's data-processing boundary and requires its own approval, evaluation and audit evidence.
 
 The candidate list is a set of workflow templates, **not** a classifier result. It intentionally exposes no numerical confidence because no calibrated model-source classifier or validation data exists in this release.
 

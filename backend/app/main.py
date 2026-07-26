@@ -13,11 +13,16 @@ from .analyzer import inspect_image
 from .prompts import make_candidates
 from .security import OidcVerifier, Principal, RateLimiter, TokenVerifier, authenticate, configure_audit_logger, emit_audit, require_role
 from .settings import Settings
+from .vision import InternalVisionProvider, VisionProvider
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 
 
-def create_app(settings: Settings | None = None, token_verifier: TokenVerifier | None = None) -> FastAPI:
+def create_app(
+    settings: Settings | None = None,
+    token_verifier: TokenVerifier | None = None,
+    vision_provider: VisionProvider | None = None,
+) -> FastAPI:
     settings = settings or Settings.from_env()
     configure_audit_logger()
     Image.MAX_IMAGE_PIXELS = settings.max_image_pixels
@@ -30,6 +35,7 @@ def create_app(settings: Settings | None = None, token_verifier: TokenVerifier |
     app.state.settings = settings
     app.state.limiter = RateLimiter(settings.requests_per_minute)
     app.state.token_verifier = token_verifier or (OidcVerifier(settings.oidc) if settings.oidc else None)
+    app.state.vision_provider = vision_provider or (InternalVisionProvider(settings.vision_provider) if settings.vision_provider else None)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(settings.allowed_origins),
@@ -93,17 +99,21 @@ def create_app(settings: Settings | None = None, token_verifier: TokenVerifier |
         except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as exc:
             emit_audit("analysis_requested", request, principal, "rejected", reason="unreadable_image")
             raise HTTPException(status_code=422, detail="The uploaded file is not a readable image.") from exc
+        vision_context = None
+        if app.state.vision_provider:
+            vision_context = await app.state.vision_provider.analyze(contents, image.content_type or "image/*")
         emit_audit("analysis_requested", request, principal, "success", mime_type=image.content_type, bytes=len(contents))
         return {
             "analysis_id": request.state.request_id,
             "methodology": {
-                "name": "observable_feature_heuristics",
-                "version": "0.2.0",
-                "inputs": ["dimensions", "aspect ratio", "average colour", "brightness"],
+                "name": "observable_features_with_optional_internal_vision",
+                "version": "0.3.0",
+                "inputs": ["dimensions", "aspect ratio", "average colour", "brightness"] + (["approved internal vision description and tags"] if vision_context else []),
                 "does_not_do": ["source-model attribution", "biometric identification", "recovery of proprietary model internals"],
             },
             "analysis": features,
-            "candidates": make_candidates(features),
+            "vision_context": {"description": vision_context.description, "tags": vision_context.tags} if vision_context else None,
+            "candidates": make_candidates(features, vision_context),
             "human_review": {
                 "required": True,
                 "reason": "Output is a creative reconstruction aid and is not calibrated evidence about an image's origin.",

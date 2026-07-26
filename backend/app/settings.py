@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import os
+from urllib.parse import urlparse
 
 
 @dataclass(frozen=True)
@@ -21,6 +22,12 @@ class OidcSettings:
 
 
 @dataclass(frozen=True)
+class VisionProviderSettings:
+    url: str
+    token: str
+
+
+@dataclass(frozen=True)
 class Settings:
     environment: str = "development"
     max_upload_bytes: int = 10 * 1024 * 1024
@@ -28,6 +35,7 @@ class Settings:
     allowed_origins: tuple[str, ...] = ("http://localhost:5173",)
     clients: tuple[ApiClient, ...] = ()
     oidc: OidcSettings | None = None
+    vision_provider: VisionProviderSettings | None = None
     requests_per_minute: int = 30
 
     @property
@@ -39,6 +47,7 @@ class Settings:
         raw_clients = os.getenv("APP_API_KEYS", "").strip()
         clients = tuple(_parse_clients(raw_clients))
         oidc = _parse_oidc()
+        vision_provider = _parse_vision_provider()
         environment = os.getenv("APP_ENV", "development").lower()
         if environment not in {"development", "test", "production"}:
             raise RuntimeError("APP_ENV must be development, test, or production.")
@@ -52,6 +61,7 @@ class Settings:
             allowed_origins=origins,
             clients=clients,
             oidc=oidc,
+            vision_provider=vision_provider,
             requests_per_minute=int(os.getenv("APP_REQUESTS_PER_MINUTE", "30")),
         )
 
@@ -80,3 +90,15 @@ def _parse_oidc() -> OidcSettings | None:
     if not all(values.values()):
         raise RuntimeError("APP_OIDC_ISSUER, APP_OIDC_AUDIENCE and APP_OIDC_JWKS_URL must be set together.")
     return OidcSettings(**values, role_claim=os.getenv("APP_OIDC_ROLE_CLAIM", "roles").strip() or "roles")
+
+
+def _parse_vision_provider() -> VisionProviderSettings | None:
+    url = os.getenv("APP_VISION_PROVIDER_URL", "").strip()
+    token = os.getenv("APP_VISION_PROVIDER_TOKEN", "").strip()
+    if not url and not token:
+        return None
+    if not url or not token:
+        raise RuntimeError("APP_VISION_PROVIDER_URL and APP_VISION_PROVIDER_TOKEN must be set together.")
+    if urlparse(url).scheme != "https":
+        raise RuntimeError("APP_VISION_PROVIDER_URL must use HTTPS.")
+    return VisionProviderSettings(url=url, token=token)

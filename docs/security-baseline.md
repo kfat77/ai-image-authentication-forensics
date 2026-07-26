@@ -5,6 +5,7 @@ This document defines the implemented minimum baseline, not a certification clai
 ## Implemented controls
 
 - **No image persistence:** the API handles image bytes in memory only. It does not save uploads, prompts or generated candidates.
+- **Controlled vision enrichment:** optional AI recognition is disabled by default. When enabled, bytes are sent only to the configured HTTPS internal vision service with a dedicated token; its response is length-bounded and treated as untrusted text.
 - **Authenticated production API:** `APP_ENV=production` refuses to start without API keys or a complete OIDC configuration. Keys and OIDC role claims map to explicit `analyst` and `operator` roles.
 - **Abuse limits:** uploads have byte and pixel limits; a process-local per-client rate guard limits analysis requests. Deploy a shared gateway limiter for multiple replicas.
 - **Privacy-preserving audit events:** successful/rejected analysis and readiness operations emit structured metadata (client ID, request ID, route, outcome, MIME type and byte count). Image bytes, prompt text and secrets are excluded.

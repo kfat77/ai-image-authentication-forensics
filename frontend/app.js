@@ -13,11 +13,38 @@ document.querySelector("#analyze").addEventListener("click", async () => {
     const response = await fetch(apiUrl, { method: "POST", body, headers });
     const data = await response.json();
     if (!response.ok) throw new Error(data.detail || "分析失败");
-    document.querySelector("#analysis").innerHTML = Object.entries(data.analysis)
-      .map(([key, value]) => `<div><span>${key.replaceAll("_", " ")}</span><strong>${value}</strong></div>`).join("");
-    document.querySelector("#candidates").innerHTML = data.candidates.map(candidate => `
-      <article><div class="model"><h3>${candidate.model}</h3></div>
-      <p>${candidate.selection_rationale}</p><p>${candidate.prompt}</p><pre>${JSON.stringify(candidate.parameters, null, 2)}</pre></article>`).join("");
+    renderFacts(data.analysis);
+    renderCandidates(data.candidates);
     results.hidden = false; status.textContent = "分析完成。";
   } catch (error) { status.textContent = error.message; }
 });
+
+function renderFacts(analysis) {
+  const container = document.querySelector("#analysis");
+  container.replaceChildren();
+  Object.entries(analysis).forEach(([key, value]) => {
+    const fact = document.createElement("div");
+    const label = document.createElement("span");
+    const valueElement = document.createElement("strong");
+    label.textContent = key.replaceAll("_", " ");
+    valueElement.textContent = String(value);
+    fact.append(label, valueElement); container.append(fact);
+  });
+}
+
+function renderCandidates(candidates) {
+  const container = document.querySelector("#candidates");
+  container.replaceChildren();
+  candidates.forEach(candidate => {
+    const article = document.createElement("article");
+    const model = document.createElement("h3");
+    const rationale = document.createElement("p");
+    const prompt = document.createElement("p");
+    const parameters = document.createElement("pre");
+    model.textContent = candidate.model;
+    rationale.textContent = candidate.selection_rationale;
+    prompt.textContent = candidate.prompt;
+    parameters.textContent = JSON.stringify(candidate.parameters, null, 2);
+    article.append(model, rationale, prompt, parameters); container.append(article);
+  });
+}
