@@ -28,6 +28,12 @@ class VisionProviderSettings:
 
 
 @dataclass(frozen=True)
+class ProvenanceProviderSettings:
+    url: str
+    token: str
+
+
+@dataclass(frozen=True)
 class Settings:
     environment: str = "development"
     max_upload_bytes: int = 10 * 1024 * 1024
@@ -36,6 +42,7 @@ class Settings:
     clients: tuple[ApiClient, ...] = ()
     oidc: OidcSettings | None = None
     vision_provider: VisionProviderSettings | None = None
+    provenance_provider: ProvenanceProviderSettings | None = None
     requests_per_minute: int = 30
 
     @property
@@ -48,6 +55,7 @@ class Settings:
         clients = tuple(_parse_clients(raw_clients))
         oidc = _parse_oidc()
         vision_provider = _parse_vision_provider()
+        provenance_provider = _parse_provenance_provider()
         environment = os.getenv("APP_ENV", "development").lower()
         if environment not in {"development", "test", "production"}:
             raise RuntimeError("APP_ENV must be development, test, or production.")
@@ -62,6 +70,7 @@ class Settings:
             clients=clients,
             oidc=oidc,
             vision_provider=vision_provider,
+            provenance_provider=provenance_provider,
             requests_per_minute=int(os.getenv("APP_REQUESTS_PER_MINUTE", "30")),
         )
 
@@ -102,3 +111,15 @@ def _parse_vision_provider() -> VisionProviderSettings | None:
     if urlparse(url).scheme != "https":
         raise RuntimeError("APP_VISION_PROVIDER_URL must use HTTPS.")
     return VisionProviderSettings(url=url, token=token)
+
+
+def _parse_provenance_provider() -> ProvenanceProviderSettings | None:
+    url = os.getenv("APP_PROVENANCE_PROVIDER_URL", "").strip()
+    token = os.getenv("APP_PROVENANCE_PROVIDER_TOKEN", "").strip()
+    if not url and not token:
+        return None
+    if not url or not token:
+        raise RuntimeError("APP_PROVENANCE_PROVIDER_URL and APP_PROVENANCE_PROVIDER_TOKEN must be set together.")
+    if urlparse(url).scheme != "https":
+        raise RuntimeError("APP_PROVENANCE_PROVIDER_URL must use HTTPS.")
+    return ProvenanceProviderSettings(url=url, token=token)

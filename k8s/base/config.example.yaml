@@ -12,3 +12,5 @@ data:
   APP_OIDC_ROLE_CLAIM: roles
   # Set this only when APP_VISION_PROVIDER_TOKEN is supplied by the external secret.
   APP_VISION_PROVIDER_URL: https://vision.example.gov/analyze
+  # Set this only when APP_PROVENANCE_PROVIDER_TOKEN is supplied by the external secret.
+  APP_PROVENANCE_PROVIDER_URL: https://provenance.example.gov/verify

@@ -41,6 +41,8 @@ python -m http.server 5173
 
 完整的已实现控制、部署前必需控制和数据流边界见 [安全基线](docs/security-baseline.md)、[运行手册](docs/operations.md)、[模型治理](docs/model-governance.md) 与 [机构保障路线图](docs/assurance-roadmap.md)。这些文档不构成任何政府认证或合规承诺。
 
+针对相近开源项目的架构取舍和集成路线见 [GitHub 技术调研](docs/github-landscape-review.md)。提示词反推、视觉检测与 C2PA 内容溯源在接口和治理上保持严格区分。
+
 每次推送和 Pull Request 都会运行 Python 3.11/3.12 的测试、依赖一致性检查、编译检查与 Docker 镜像构建；Dependabot 每周检查依赖更新。
 
 面向机构集群的 Kubernetes 基线在 [k8s/README.md](k8s/README.md)，含受限运行时、HPA、PDB、资源边界和入口/出口网络策略。部署机构仍须替换镜像、接入 Secret 管理、调整网关标签并在目标环境演练。

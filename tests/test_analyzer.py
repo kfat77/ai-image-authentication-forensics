@@ -10,6 +10,7 @@ from fastapi.testclient import TestClient
 from app.analyzer import inspect_image
 from app.main import create_app
 from app.prompts import make_candidates
+from app.provenance import ProvenanceReport
 from app.security import OidcVerifier
 from app.settings import ApiClient, OidcSettings, Settings
 from app.vision import VisionContext
@@ -46,6 +47,7 @@ def test_protected_analysis_emits_safe_response_headers() -> None:
     assert payload["human_review"]["required"] is True
     assert "source-model attribution" in payload["methodology"]["does_not_do"]
     assert "confidence" not in payload["candidates"][0]
+    assert payload["provenance"]["status"] == "not_checked"
 
 
 def test_role_and_rate_limit_are_enforced() -> None:
@@ -103,6 +105,25 @@ def test_internal_vision_context_enriches_reconstruction_without_persisting_imag
     payload = response.json()
     assert payload["vision_context"]["tags"] == ["waterfront", "blue hour"]
     assert "municipal waterfront" in payload["candidates"][0]["prompt"]
+
+
+class FakeProvenanceProvider:
+    async def verify(self, image: bytes, mime_type: str) -> ProvenanceReport:
+        assert image
+        assert mime_type == "image/png"
+        return ProvenanceReport(status="valid", claim_generator="approved-government-camera")
+
+
+def test_c2pa_provenance_is_reported_separately_from_visual_analysis() -> None:
+    settings = Settings(environment="production", clients=(ApiClient("agency-a", "analysis-secret", "analyst"),))
+    client = TestClient(create_app(settings, provenance_provider=FakeProvenanceProvider()))
+    response = client.post("/analyze", headers={"X-API-Key": "analysis-secret"}, files={"image": png_upload()})
+    assert response.status_code == 200
+    assert response.json()["provenance"] == {
+        "status": "valid",
+        "claim_generator": "approved-government-camera",
+        "validation_errors": [],
+    }
 
 
 def test_production_requires_an_identity_configuration(monkeypatch: pytest.MonkeyPatch) -> None:

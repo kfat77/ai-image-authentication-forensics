@@ -27,3 +27,5 @@ Before replacing the heuristic method or claiming a source-model classifier:
 3. Test for relevant quality and disparity risks; obtain independent review.
 4. Version the model, prompts and evaluation report; approve the change through institutional change control.
 5. Implement rollback, monitoring and an appeal/remediation route where output can affect people.
+
+For the practical repository review and adopted boundaries, see [GitHub landscape review](github-landscape-review.md). Any future detector release must include the temporal/out-of-generator gate described there.

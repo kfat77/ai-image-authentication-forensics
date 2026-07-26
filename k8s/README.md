@@ -6,7 +6,7 @@
 
 1. Replace the `image` placeholder with a signed, approved image from the institution's registry.
 2. Create `ai-photo-reconstructor-config` from reviewed values; do not apply `config.example.yaml` unchanged.
-3. Populate the `ai-photo-reconstructor-runtime` Secret through the approved secret manager/CSI driver. It may contain `APP_API_KEYS` and, when `APP_VISION_PROVIDER_URL` is enabled, `APP_VISION_PROVIDER_TOKEN`. It may be omitted only when OIDC is fully configured and vision enrichment is disabled. Do not commit a Secret manifest or use `kubectl create secret` in shell history.
+3. Populate the `ai-photo-reconstructor-runtime` Secret through the approved secret manager/CSI driver. It may contain `APP_API_KEYS`, `APP_VISION_PROVIDER_TOKEN`, and `APP_PROVENANCE_PROVIDER_TOKEN` when their corresponding URLs are enabled. It may be omitted only when OIDC is fully configured and both optional services are disabled. Do not commit a Secret manifest or use `kubectl create secret` in shell history.
 4. Adapt the ingress and egress namespace/pod labels in `network-policy.yaml` to the cluster. The egress gateway must allow only the configured identity-provider JWKS endpoint and approved audit/telemetry destinations.
 5. Verify PDB/HPA support, namespace policies, probes, gateway access logs, central audit shipping and a rollback procedure in the target cluster.
 

@@ -23,6 +23,10 @@ For bearer-token integration, set `APP_OIDC_ISSUER`, `APP_OIDC_AUDIENCE`, and `A
 
 To enable AI-based visual context, configure `APP_VISION_PROVIDER_URL` and `APP_VISION_PROVIDER_TOKEN` together. The URL must be HTTPS and should resolve only through the approved institutional egress path. The endpoint accepts multipart field `image` and returns JSON in the form `{"description": "...", "tags": ["..."]}`. Its response is used only to enrich editable prompts; it is not provenance evidence or an automated decision.
 
+## C2PA provenance verification
+
+To surface cryptographic provenance, configure `APP_PROVENANCE_PROVIDER_URL` and `APP_PROVENANCE_PROVIDER_TOKEN` together. The approved internal verifier accepts multipart field `image` and returns `status` (`valid`, `invalid`, `not_present`, or `unsupported`), optionally `claim_generator` and `validation_errors`. It must use a governed trust configuration and released C2PA tooling. A visual detector result must never be substituted for this verifier output.
+
 ## Audit collection
 
 Application audit events are emitted to standard output. Ship stdout to the organisation's central audit platform. Restrict access, make the sink append-only, and configure retention under the approved records schedule.

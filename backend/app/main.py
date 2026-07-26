@@ -11,6 +11,7 @@ from PIL import Image, UnidentifiedImageError
 
 from .analyzer import inspect_image
 from .prompts import make_candidates
+from .provenance import C2paVerificationProvider, ProvenanceProvider, ProvenanceReport
 from .security import OidcVerifier, Principal, RateLimiter, TokenVerifier, authenticate, configure_audit_logger, emit_audit, require_role
 from .settings import Settings
 from .vision import InternalVisionProvider, VisionProvider
@@ -22,6 +23,7 @@ def create_app(
     settings: Settings | None = None,
     token_verifier: TokenVerifier | None = None,
     vision_provider: VisionProvider | None = None,
+    provenance_provider: ProvenanceProvider | None = None,
 ) -> FastAPI:
     settings = settings or Settings.from_env()
     configure_audit_logger()
@@ -36,6 +38,7 @@ def create_app(
     app.state.limiter = RateLimiter(settings.requests_per_minute)
     app.state.token_verifier = token_verifier or (OidcVerifier(settings.oidc) if settings.oidc else None)
     app.state.vision_provider = vision_provider or (InternalVisionProvider(settings.vision_provider) if settings.vision_provider else None)
+    app.state.provenance_provider = provenance_provider or (C2paVerificationProvider(settings.provenance_provider) if settings.provenance_provider else None)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(settings.allowed_origins),
@@ -100,6 +103,9 @@ def create_app(
             emit_audit("analysis_requested", request, principal, "rejected", reason="unreadable_image")
             raise HTTPException(status_code=422, detail="The uploaded file is not a readable image.") from exc
         vision_context = None
+        provenance = ProvenanceReport(status="not_checked")
+        if app.state.provenance_provider:
+            provenance = await app.state.provenance_provider.verify(contents, image.content_type or "image/*")
         if app.state.vision_provider:
             vision_context = await app.state.vision_provider.analyze(contents, image.content_type or "image/*")
         emit_audit("analysis_requested", request, principal, "success", mime_type=image.content_type, bytes=len(contents))
@@ -112,6 +118,11 @@ def create_app(
                 "does_not_do": ["source-model attribution", "biometric identification", "recovery of proprietary model internals"],
             },
             "analysis": features,
+            "provenance": {
+                "status": provenance.status,
+                "claim_generator": provenance.claim_generator,
+                "validation_errors": provenance.validation_errors,
+            },
             "vision_context": {"description": vision_context.description, "tags": vision_context.tags} if vision_context else None,
             "candidates": make_candidates(features, vision_context),
             "human_review": {

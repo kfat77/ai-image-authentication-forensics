@@ -74,6 +74,12 @@ spec:
                   name: ai-photo-reconstructor-config
                   key: APP_VISION_PROVIDER_URL
                   optional: true
+            - name: APP_PROVENANCE_PROVIDER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ai-photo-reconstructor-config
+                  key: APP_PROVENANCE_PROVIDER_URL
+                  optional: true
             - name: APP_API_KEYS
               valueFrom:
                 secretKeyRef:
@@ -85,6 +91,12 @@ spec:
                 secretKeyRef:
                   name: ai-photo-reconstructor-runtime
                   key: APP_VISION_PROVIDER_TOKEN
+                  optional: true
+            - name: APP_PROVENANCE_PROVIDER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ai-photo-reconstructor-runtime
+                  key: APP_PROVENANCE_PROVIDER_TOKEN
                   optional: true
           securityContext:
             allowPrivilegeEscalation: false
