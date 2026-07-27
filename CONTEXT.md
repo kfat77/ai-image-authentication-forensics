@@ -55,3 +55,7 @@ This project contains two separate product capabilities: creative reconstruction
 - **Audit event**: a hash-linked institutional event recording an actor action against a case. A local JSONL log is not an institutional audit chain.
 - **Case lifecycle**: the ordered states `CREATED`, `EVIDENCE_COLLECTED`, `ANALYZING`, `UNDER_REVIEW`, `REPORT_GENERATED`, and `ARCHIVED`. State advances never replace frozen evidence.
 - **Evidence preservation record**: an append-only binding of a case to original, evidence-bundle and report hashes.
+- **Private-deployment boundary**: the institution-controlled configuration, network, persistence, storage, key-provider, and health-check layer around the existing assessment workflow. It does not alter an authenticity assessment.
+- **Key provider**: an injected signing and verification capability identified by key ID and algorithm. `local_test` is only for acceptance testing; an external KMS is an institution-supplied adapter, not a cloud binding in this project.
+- **Persistence port**: the interface for storing Cases, preserved Evidence, Audit Events, and Reports. The memory adapter supports tests; database adapters must be selected and governed by the deploying institution.
+- **Recovery drill**: a documented restore-and-verify procedure covering database state, evidence objects, report hashes, and audit-chain integrity. A successful drill is not a certification claim.
