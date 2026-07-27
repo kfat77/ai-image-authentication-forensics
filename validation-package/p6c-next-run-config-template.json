@@ -1,0 +1,9 @@
+{
+  "config_version": "p6c.next-run-template.1",
+  "dataset_registry": "validation-datasets/registry.json",
+  "dataset_manifest_hash": "REQUIRED_LOWERCASE_SHA256",
+  "split_policy": "parent-group-disjoint train/validation/test/holdout",
+  "red_team_scenarios": ["metadata_removal", "jpeg_compression", "screenshot", "crop", "resize", "editing"],
+  "scope_policy": "out-of-scope inputs must not be forced into a model conclusion",
+  "output_policy": "retain all failures and emit bounded reports only"
+}

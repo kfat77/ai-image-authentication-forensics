@@ -1,0 +1,6 @@
+{
+  "registry_version": "p6c.validation-datasets.1",
+  "records": [],
+  "admission_status": "NO_ADMITTED_SAMPLES",
+  "limitation": "No sample is admitted until per-file hash, source, licence, scenario, label, collection metadata, and split have been reviewed."
+}

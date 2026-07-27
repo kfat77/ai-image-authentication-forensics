@@ -1,0 +1,16 @@
+{
+  "preflight_id": "p6c-current-candidate-readiness-001",
+  "candidate": "efficientnet_b0_linear_logistic_p2b2a:p4b-candidate-1",
+  "model_hash": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934",
+  "calibration_hash": "022bfc7ef4527f7a9285125ce5b779c4e67474f053b24ec339eb16cb1ebba44d",
+  "provider_hash": null,
+  "dataset_manifest_hash": null,
+  "signature_status": "NOT_ISSUED",
+  "readiness_status": "BLOCKED",
+  "blocking_conditions": [
+    "No signed approved ModelRecord, CalibrationRecord, and ProviderAdmission bind the experimental candidate.",
+    "Validation Dataset Registry has no admitted per-file-hash records.",
+    "No frozen, coverage-complete P6-B dataset manifest exists."
+  ],
+  "relation_to_p6b": "Does not change p6b-efficientnet-p2b2a-preflight-001, which remains REJECTED."
+}

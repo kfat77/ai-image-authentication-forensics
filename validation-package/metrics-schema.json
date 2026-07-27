@@ -1,0 +1,9 @@
+{
+  "schema_version": "p6c.metrics.1",
+  "required_metrics": ["accuracy", "precision", "recall", "f1", "false_positive_rate", "false_negative_rate", "ece", "brier", "evidence_completeness", "report_reproducibility"],
+  "requirements": {
+    "all_metrics": "Record numerator, denominator, scope, exclusions, and limitation.",
+    "calibration": "ECE and Brier are valid only on the declared calibration population.",
+    "reproducibility": "Verify input, manifest, Registry, evidence-manifest, and output hashes on selected re-runs."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ValidationDatasetSample",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sample_id", "file_hash", "source", "license", "scenario", "label", "collection_metadata", "split"],
+  "properties": {
+    "sample_id": {"type": "string", "minLength": 1},
+    "file_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source": {"type": "string", "minLength": 1},
+    "license": {"type": "string", "minLength": 1},
+    "scenario": {"type": "string", "enum": ["camera_photo", "smartphone_photo", "news_image", "online_distributed_image", "diffusion_generated", "commercial_generator", "jpeg_compression", "screenshot", "crop", "resize", "editing"]},
+    "label": {"type": "string", "enum": ["REAL", "AI_GENERATED", "UNKNOWN"]},
+    "collection_metadata": {
+      "type": "object",
+      "required": ["collected_at", "admission_reviewer", "parent_group_id", "limitations"],
+      "properties": {
+        "collected_at": {"type": "string", "minLength": 1},
+        "admission_reviewer": {"type": "string", "minLength": 1},
+        "parent_group_id": {"type": "string", "minLength": 1},
+        "generation_method": {"type": "string"},
+        "resolution_class": {"type": "string"},
+        "transformations": {"type": "array", "items": {"type": "string"}},
+        "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": true
+    },
+    "split": {"type": "string", "enum": ["train", "validation", "test", "holdout"]}
+  }
+}
