@@ -1,0 +1,13 @@
+{
+  "name": "open-images-v7",
+  "version": "v7",
+  "source": "https://storage.googleapis.com/openimages/web/index.html",
+  "license": "Images listed as CC BY 2.0 and annotations CC BY 4.0; selected image licences and attribution remain to be verified.",
+  "hash": "sha256:11de02dfa11beb33d618f573ed7ed191f8d5eedcf246bffb253211585defa210",
+  "index_hash": "not_materialized",
+  "sample_count": 9178275,
+  "category": "natural_images_with_annotations",
+  "generation_source": "NONE",
+  "admission_status": "pending_review",
+  "split_strategy": "grouped_non_random"
+}

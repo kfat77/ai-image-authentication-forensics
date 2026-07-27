@@ -1,0 +1,13 @@
+{
+  "name": "coco-2017",
+  "version": "2017",
+  "source": "https://cocodataset.org/",
+  "license": "COCO terms and underlying source-image rights require subset-specific review.",
+  "hash": "sha256:550f9a04dfc6eeb8160fa32d8698ae67d00e4d3b754346188fd008b556237c11",
+  "index_hash": "not_materialized",
+  "sample_count": 163957,
+  "category": "natural_images_with_annotations",
+  "generation_source": "NONE",
+  "admission_status": "pending_review",
+  "split_strategy": "grouped_non_random"
+}

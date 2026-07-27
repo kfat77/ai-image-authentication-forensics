@@ -2,6 +2,8 @@
 
 Status date: 2026-07-27. This registry is a research governance control, not a download list. A source cannot enter training until its row is marked **approved**, a versioned manifest is recorded, and its terms have been reviewed for the exact proposed use.
 
+P2-B1 candidate manifests are stored in [`/manifests`](../manifests), while the externally approved index is deliberately empty at [`/registry/approved-manifests.json`](../registry/approved-manifests.json). See the [P2-B1 admission report](p2b1-data-admission-report.md) for the current decisions.
+
 | Dataset | Authoritative source | Candidate sample count | Image type | Generator / collection time | Licence or terms recorded | Training allowed | Commercial use allowed | Registry status |
 | --- | --- | ---: | --- | --- | --- | --- | --- | --- |
 | ImageNet ILSVRC 2012 | [ImageNet download](https://www.image-net.org/download.php) | 1,281,167 train; 50,000 validation; 100,000 test | Natural images | Not generated; 2012 challenge release | ImageNet terms; image copyrights remain with rightsholders | Terms-constrained, not yet cleared | No: non-commercial research/education terms | pending review |

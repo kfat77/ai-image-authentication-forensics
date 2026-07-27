@@ -1,0 +1,13 @@
+{
+  "name": "genimage",
+  "version": "project-release-unpinned",
+  "source": "https://github.com/GenImage-Dataset/GenImage",
+  "license": "No verified dataset SPDX licence recorded in the source repository.",
+  "hash": "sha256:3099edaa2e67f059d815548d2f6b03436628c93d1450d73cee8eb7d17b4440d4",
+  "index_hash": "not_materialized",
+  "sample_count": 1000000,
+  "category": "real_and_generated_image_pairs",
+  "generation_source": "OTHER",
+  "admission_status": "blocked",
+  "split_strategy": "grouped_non_random"
+}

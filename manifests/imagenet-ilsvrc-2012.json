@@ -1,0 +1,13 @@
+{
+  "name": "imagenet-ilsvrc-2012",
+  "version": "2012",
+  "source": "https://www.image-net.org/download.php",
+  "license": "ImageNet terms; non-commercial research/education; underlying image rights retained by rightsholders.",
+  "hash": "sha256:a58a11025523cf5eedb153d467e4d964a0a173c401c540b1e38350d0ff5c7a8c",
+  "index_hash": "not_materialized",
+  "sample_count": 1431167,
+  "category": "natural_images",
+  "generation_source": "NONE",
+  "admission_status": "pending_review",
+  "split_strategy": "grouped_non_random"
+}

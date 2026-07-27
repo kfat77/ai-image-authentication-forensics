@@ -1,0 +1,13 @@
+{
+  "name": "diffusiondb",
+  "version": "2m-and-14m-card-unpinned",
+  "source": "https://huggingface.co/datasets/poloclub/diffusiondb/blob/main/README.md",
+  "license": "Dataset card states CC0 1.0 data and MIT code; privacy and provenance review remain pending.",
+  "hash": "sha256:f47d41786d414dce5f42d6699abe64961448c9f9890ecb3ace17ad638c29644d",
+  "index_hash": "not_materialized",
+  "sample_count": 14000000,
+  "category": "generated_images_with_prompts",
+  "generation_source": "SD",
+  "admission_status": "pending_review",
+  "split_strategy": "grouped_non_random"
+}

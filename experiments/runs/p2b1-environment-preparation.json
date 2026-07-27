@@ -1,0 +1,89 @@
+{
+  "dataset_manifests": [
+    {
+      "admission_status": "blocked",
+      "hash": "sha256:e9bee8c04a9fc24b550ccdac13d17fb7de2571cad34eb1c103fa3a5ec24e59ce",
+      "name": "cifake",
+      "version": "authoritative-release-unverified"
+    },
+    {
+      "admission_status": "pending_review",
+      "hash": "sha256:550f9a04dfc6eeb8160fa32d8698ae67d00e4d3b754346188fd008b556237c11",
+      "name": "coco-2017",
+      "version": "2017"
+    },
+    {
+      "admission_status": "pending_review",
+      "hash": "sha256:f47d41786d414dce5f42d6699abe64961448c9f9890ecb3ace17ad638c29644d",
+      "name": "diffusiondb",
+      "version": "2m-and-14m-card-unpinned"
+    },
+    {
+      "admission_status": "blocked",
+      "hash": "sha256:3099edaa2e67f059d815548d2f6b03436628c93d1450d73cee8eb7d17b4440d4",
+      "name": "genimage",
+      "version": "project-release-unpinned"
+    },
+    {
+      "admission_status": "pending_review",
+      "hash": "sha256:a58a11025523cf5eedb153d467e4d964a0a173c401c540b1e38350d0ff5c7a8c",
+      "name": "imagenet-ilsvrc-2012",
+      "version": "2012"
+    },
+    {
+      "admission_status": "pending_review",
+      "hash": "sha256:11de02dfa11beb33d618f573ed7ed191f8d5eedcf246bffb253211585defa210",
+      "name": "open-images-v7",
+      "version": "v7"
+    }
+  ],
+  "encoder_adapters": [
+    {
+      "feature_dimension": null,
+      "identifier": "clip",
+      "state": "blocked",
+      "version": "unselected"
+    },
+    {
+      "feature_dimension": null,
+      "identifier": "dinov2",
+      "state": "blocked",
+      "version": "unselected"
+    },
+    {
+      "feature_dimension": null,
+      "identifier": "siglip",
+      "state": "blocked",
+      "version": "unselected"
+    },
+    {
+      "feature_dimension": null,
+      "identifier": "convnext",
+      "state": "blocked",
+      "version": "unselected"
+    },
+    {
+      "feature_dimension": null,
+      "identifier": "efficientnet",
+      "state": "blocked",
+      "version": "unselected"
+    },
+    {
+      "feature_dimension": null,
+      "identifier": "vit",
+      "state": "blocked",
+      "version": "unselected"
+    }
+  ],
+  "hardware": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9"
+  },
+  "limitations": [
+    "No external image data is admitted or stored.",
+    "No encoder package or checkpoint is installed.",
+    "No feature vectors, classifier training, benchmark score, or AI probability is produced."
+  ],
+  "record_type": "p2_b1_experiment_environment_preparation",
+  "timestamp_utc": "2026-07-27T05:55:00+00:00"
+}

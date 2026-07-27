@@ -35,3 +35,9 @@ This project contains two separate product capabilities: creative reconstruction
 - **Calibration set**: data held out from fitting a classifier and used only to align its numerical scores with observed outcomes in the declared population.
 - **Unknown rejection**: the rule that returns `unknown` when no known generator label has sufficient support. It prevents a closed-set attribution model from being forced to name a generator.
 - **Experiment record**: the immutable result manifest for one run, including data version, implementation version, hyperparameters, hardware, metrics, and checkpoint hash.
+- **Image origin**: the dataset label describing an image as `REAL`, `AI_GENERATED`, or `UNKNOWN`. It is a curated dataset fact, not a runtime finding.
+- **Generator label**: the dataset label selected from `NONE`, `SD`, `SDXL`, `MIDJOURNEY`, `DALL-E`, `FLUX`, `IMAGEN`, or `OTHER`. It expresses documented collection provenance and may be `OTHER`; it is not proof of a proprietary model.
+- **Edit status**: the dataset label `ORIGINAL`, `COMPRESSED`, `RESIZED`, `CROPPED`, or `AI_EDITED`, describing the recorded variant of a sample.
+- **Data index**: the versioned list of admitted sample records and their content hashes, labels, group identifiers, and split assignments. It is distinct from a dataset manifest.
+- **Split assignment**: the declared train, validation, or test membership of a data-index record, together with generator, temporal, and transformation split labels.
+- **Split contamination**: a parent image or source group appearing across more than one split. It invalidates an experiment record.

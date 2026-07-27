@@ -1,0 +1,13 @@
+{
+  "name": "cifake",
+  "version": "authoritative-release-unverified",
+  "source": "https://github.com/jordan-bird/CIFAKE-Real-and-AI-Generated-Synthetic-Images",
+  "license": "No verified authoritative dataset licence recorded.",
+  "hash": "sha256:e9bee8c04a9fc24b550ccdac13d17fb7de2571cad34eb1c103fa3a5ec24e59ce",
+  "index_hash": "not_materialized",
+  "sample_count": 0,
+  "category": "real_and_synthetic_images",
+  "generation_source": "OTHER",
+  "admission_status": "blocked",
+  "split_strategy": "grouped_non_random"
+}
