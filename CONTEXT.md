@@ -53,3 +53,5 @@ This project contains two separate product capabilities: creative reconstruction
 - **Calibration registry entry**: the scoped validation record that permits a named model version to influence an assessment only under declared conditions and exclusions.
 - **Case**: the institution-owned lifecycle record that binds an original file hash, frozen evidence bundle, analysis version, reviewers and signed final report. It is distinct from an API request.
 - **Audit event**: a hash-linked institutional event recording an actor action against a case. A local JSONL log is not an institutional audit chain.
+- **Case lifecycle**: the ordered states `CREATED`, `EVIDENCE_COLLECTED`, `ANALYZING`, `UNDER_REVIEW`, `REPORT_GENERATED`, and `ARCHIVED`. State advances never replace frozen evidence.
+- **Evidence preservation record**: an append-only binding of a case to original, evidence-bundle and report hashes.
