@@ -1,0 +1,16 @@
+{
+  "failure_id": "p6b-001-out-of-scope-unverifiable-fixture",
+  "benchmark_id": "p2b2a-ditfake-mini",
+  "sample_id": null,
+  "sample_hash": null,
+  "category": "out_of_scope",
+  "candidate_id": "efficientnet_b0_linear_logistic_p2b2a:p4b-candidate-1",
+  "model_hash": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934",
+  "analysis_version": "a3279e7d794267c47c4e7b42be99d53f37d621b9",
+  "registry_references": {"model_record_hash": null, "calibration_record_hash": null, "provider_record_hash": null},
+  "observed_output": "Validation admission stopped before scoring because raw fixture files and their per-file hashes are intentionally absent from the workspace.",
+  "scope_state": "OUT_OF_SCOPE",
+  "limitation": "Dataset-level manifest/index hashes cannot substitute for P6-A sample-level hash verification and repeatable-access evidence.",
+  "created_at": "2026-07-27T10:16:55.9724588Z",
+  "supersedes": null
+}

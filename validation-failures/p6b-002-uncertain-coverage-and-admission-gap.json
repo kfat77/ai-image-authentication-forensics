@@ -1,0 +1,16 @@
+{
+  "failure_id": "p6b-002-uncertain-coverage-and-admission-gap",
+  "benchmark_id": "p2b2a-ditfake-mini",
+  "sample_id": null,
+  "sample_hash": null,
+  "category": "uncertain",
+  "candidate_id": "efficientnet_b0_linear_logistic_p2b2a:p4b-candidate-1",
+  "model_hash": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934",
+  "analysis_version": "a3279e7d794267c47c4e7b42be99d53f37d621b9",
+  "registry_references": {"model_record_hash": null, "calibration_record_hash": null, "provider_record_hash": null},
+  "observed_output": "The only documented generated family is FLUX; photography, mobile, news, screenshot, and secondary-processing slices are absent. No P6-B origin-performance conclusion is supportable.",
+  "scope_state": "UNKNOWN",
+  "limitation": "A six-image held-out fixture and one generator cannot establish cross-source, cross-generator, or transformation behavior.",
+  "created_at": "2026-07-27T10:16:55.9724588Z",
+  "supersedes": null
+}

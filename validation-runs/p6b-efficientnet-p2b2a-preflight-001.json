@@ -1,0 +1,92 @@
+{
+  "run_id": "p6b-efficientnet-p2b2a-preflight-001",
+  "run_type": "controlled_validation_admission_and_artifact_preflight",
+  "timestamp": "2026-07-27T10:16:55.9724588Z",
+  "code_version": "a3279e7d794267c47c4e7b42be99d53f37d621b9",
+  "model_record_hash": null,
+  "calibration_record_hash": null,
+  "provider_record_hash": null,
+  "dataset_manifest_hash": "e501036e84584dd48c8e854fcb0ff0de5943c7c0283d761484fc108c9ad63a45",
+  "candidate": {
+    "model_id": "efficientnet_b0_linear_logistic_p2b2a",
+    "version": "p4b-candidate-1",
+    "status_at_run_start": "experimental",
+    "weight_hash": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934",
+    "model_registry_file": "models/registry/p4b-efficientnet-b0-linear-baseline.json",
+    "model_registry_file_hash": "4cee88b6bb1e78a65868443350a5095dcbc9c6dc1dc56124e8e98a14fcd169e8",
+    "model_record_hash": null,
+    "model_record_hash_reason": "No signed P4-C Registry of Record ModelRecord exists for this experimental candidate."
+  },
+  "calibration": {
+    "calibration_id": "p4b-efficientnet-b0-temperature-v1",
+    "calibration_registry_file": "calibration/p4b-efficientnet-b0-temperature-v1.json",
+    "calibration_registry_file_hash": "022bfc7ef4527f7a9285125ce5b779c4e67474f053b24ec339eb16cb1ebba44d",
+    "calibration_record_hash": null,
+    "calibration_record_hash_reason": "No signed P4-C Registry of Record CalibrationRecord exists; the file describes a small research-fixture calibration only."
+  },
+  "provider": {
+    "provider_id": "ml.efficientnet_b0_linear_logistic_p2b2a",
+    "provider_version": "p4b-candidate-1",
+    "provider_record_hash": null,
+    "provider_record_hash_reason": "No approved Provider Admission exists; the P4-B candidate is explicitly blocked from formal Authentication Reports."
+  },
+  "dataset": {
+    "name": "p2b2a-ditfake-mini",
+    "source": "https://huggingface.co/datasets/Jouesmak/DiTFake/tree/ca9ea06c8f926c3a11ca4b657074cc7cbb99e5c7",
+    "license": "Apache-2.0 dataset-card declaration; project approval is research-only",
+    "dataset_manifest_file": "manifests/p2b2a-ditfake-mini.json",
+    "dataset_manifest_hash": "e501036e84584dd48c8e854fcb0ff0de5943c7c0283d761484fc108c9ad63a45",
+    "declared_dataset_identity_hash": "81505c1f7713257a2dcf0344c57fc9916b1d01ab2375afd279102434f0ce3a3b",
+    "declared_index_hash": "01babc8cc2b2650beba96c1969cba0bd95f5029279839240394d9378d9c7cf06",
+    "sample_count": 24,
+    "scenario_labels": ["real_coco_referenced_original", "flux_generated_original"],
+    "label_counts": {"REAL": 12, "AI_GENERATED": 12},
+    "split_counts": {"train": 12, "validation": 6, "test": 6},
+    "file_hashes_available_in_workspace": false,
+    "data_admission": "REJECTED",
+    "data_admission_reason": "The workspace contains a dataset-level manifest and index hash, but not the per-file validation records/hashes required by P6-A; the fixture also lacks photography, mobile, news, screenshot, and secondary-processing coverage."
+  },
+  "artifact_verification": {
+    "prior_result_file": "experiments/results/p2b2a-ditfake-efficientnet-b0-linear-baseline-v1/result.json",
+    "prior_result_file_hash": "407df30a0a017e8d6e84fe296da0eb80a3ed4b5ba85c6545388d0dcc1cb17937",
+    "prior_governance_file": "experiments/p4b/efficientnet-b0-governance-baseline.json",
+    "prior_governance_file_hash": "7f3690b41496631f8e55280edde12e2afb7d368573f464707f61e25debfbff19",
+    "historical_fixture_observation": {
+      "test_sample_count": 6,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_count": 0,
+      "false_negative_count": 0,
+      "ece": 0.408368,
+      "brier": 0.169729
+    },
+    "historical_fixture_observation_limitation": "Carried forward solely as a verified historical artifact; it is not a P6-B metric because raw files/per-file hashes were not available for this run and the fixture has a single AI source."
+  },
+  "metrics": {
+    "accuracy": null,
+    "precision": null,
+    "recall": null,
+    "f1": null,
+    "false_positive_rate": null,
+    "false_negative_rate": null,
+    "ece": null,
+    "brier": null,
+    "evidence_completeness": null,
+    "report_reproducibility": null,
+    "not_evaluated_reason": "P6-A data admission and Model/Calibration/Provider Registry gates failed before scoring; no formal reports were generated."
+  },
+  "test_execution": {
+    "command": "PYTHONPATH=backend py -3.11 -m pytest -q",
+    "result": "86 passed, 1 skipped",
+    "scope": "repository regression only; not candidate model validation evidence"
+  },
+  "failure_record_ids": [
+    "p6b-001-out-of-scope-unverifiable-fixture",
+    "p6b-002-uncertain-coverage-and-admission-gap"
+  ],
+  "status": "REJECTED",
+  "status_reason": "The experimental candidate lacks signed Model/Calibration/Provider records, per-file hash-verifiable validation samples, and required scenario coverage. The preflight therefore prohibits scoring and formal report fusion.",
+  "prohibited_transitions": ["Registry APPROVED", "formal Authentication Report use", "public performance claim", "production deployment"]
+}
