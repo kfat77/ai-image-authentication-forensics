@@ -1,0 +1,19 @@
+{
+  "calibration_id": "p4b-efficientnet-b0-temperature-v1",
+  "model_id": "efficientnet_b0_linear_logistic_p2b2a",
+  "model_version": "p4b-candidate-1",
+  "threshold": 0.5,
+  "ece": 0.408368,
+  "brier": 0.169729,
+  "validation_dataset": "p2b2a-ditfake-mini validation split",
+  "validation_date": "2026-07-27T06:39:15.510237+00:00",
+  "scope": ["JPEG_FILE", "ORIGINAL_CAPTURE_ATTESTED"],
+  "excluded_conditions": ["SCREENSHOT", "AI_EDITED", "LOW_RESOLUTION", "CROPPED", "RESIZED", "COMPRESSED"],
+  "limitations": [
+    "Calibration is derived from the small P2-B2-A research fixture and cannot support production probability claims.",
+    "The score must be suppressed outside the stated scope."
+  ],
+  "metrics": {"accuracy": 1.0, "f1": 1.0, "auroc": 1.0, "ece": 0.408368, "brier": 0.169729},
+  "calibration_method": "temperature_scaling",
+  "calibration_parameters": {"temperature": 6.0}
+}

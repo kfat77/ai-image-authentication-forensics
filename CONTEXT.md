@@ -63,3 +63,6 @@ This project contains two separate product capabilities: creative reconstruction
 - **Detection evidence**: a provider-produced observation with an optional score, declared scope, limitations, and complete evidence provenance. It is not a standalone origin conclusion.
 - **Provider registry entry**: the governed record of a provider ID, version, type, validation report, limitations, and lifecycle status. Only `approved` entries may contribute evidence to a formal authentication report.
 - **Provider exclusion**: the recorded reason an unapproved, deprecated, or otherwise non-admitted provider could not contribute to formal evidence fusion. It is not a negative finding about the image.
+- **Governed model record**: the registry-bound identity, architecture, source, licence, checkpoint hash, data/evaluation references, calibration reference, scope, limitations, and admission status for one ML detector model version.
+- **Governed calibration record**: the model-version-specific threshold, ECE, Brier score, validation data/date, allowed scope, excluded conditions, metrics, and limitations that bound one model's auxiliary score.
+- **Out of scope**: the state in which declared input conditions do not meet a governed calibration record's conditions or include an excluded condition. It suppresses the model score and is not an authenticity conclusion.

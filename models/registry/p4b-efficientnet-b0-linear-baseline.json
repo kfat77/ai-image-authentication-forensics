@@ -1,0 +1,18 @@
+{
+  "model_id": "efficientnet_b0_linear_logistic_p2b2a",
+  "version": "p4b-candidate-1",
+  "architecture": "Torchvision EfficientNet-B0 frozen features plus small linear logistic-regression classifier",
+  "weight_hash": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934",
+  "source": "https://download.pytorch.org/models/efficientnet_b0_rwightman-3dd342df.pth",
+  "license": "BSD-3-Clause (Torchvision code); upstream pretrained-weight rights require institution review",
+  "dataset_reference": "docs/p2b2a-licence-record.md#approved-data-input",
+  "evaluation_reference": "experiments/p4b/efficientnet-b0-governance-baseline.json",
+  "calibration_reference": "p4b-efficientnet-b0-temperature-v1",
+  "status": "experimental",
+  "validation_scope": ["JPEG_FILE", "ORIGINAL_CAPTURE_ATTESTED"],
+  "limitations": [
+    "The P2-B2-A source experiment contains 24 images and one generated family; it is not a performance estimate.",
+    "The recorded full checkpoint hash and the Torchvision filename token differ; reuse requires independent review.",
+    "This candidate is not approved and cannot enter a formal authentication report."
+  ]
+}

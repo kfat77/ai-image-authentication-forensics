@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+import json
 from typing import Any, Literal
 
 from evidence.models import EvidenceBundle
@@ -19,10 +20,28 @@ class ProviderContext:
     input_hash: str
     collected_at_utc: str
     evidence_bundle: EvidenceBundle | None = None
+    scope_attestation: "ScopeAttestation | None" = None
 
     def __post_init__(self) -> None:
         _sha256(self.input_hash)
         _utc_timestamp(self.collected_at_utc)
+
+
+@dataclass(frozen=True)
+class ScopeAttestation:
+    input_hash: str
+    conditions: tuple[str, ...]
+    issuer: str
+    key_id: str
+    signature: str
+
+    def __post_init__(self) -> None:
+        _sha256(self.input_hash)
+        if not all((self.conditions, self.issuer, self.key_id, self.signature)):
+            raise ValueError("Scope attestation requires conditions, issuer, key ID, and signature.")
+
+    def payload(self) -> bytes:
+        return json.dumps({"conditions": self.conditions, "input_hash": self.input_hash, "issuer": self.issuer, "key_id": self.key_id}, sort_keys=True, separators=(",", ":")).encode()
 
 
 @dataclass(frozen=True)

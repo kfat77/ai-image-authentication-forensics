@@ -28,6 +28,9 @@ def render_pdf(report: AuthenticationReport, path: str | Path) -> None:
     for item in report.evidence.get("providers", []):
         provenance = item["evidence_provenance"]
         story.append(Paragraph(f"Provider evidence: {escape(item['provider_id'])}@{escape(item['provider_version'])} - source: {escape(provenance['source_type'])} - evidence: {escape(provenance['evidence_id'])}<br/>{escape('; '.join(item['limitations']))}", styles["BodyText"]))
+    for item in report.evidence.get("model_evidence", []):
+        observation = item["observation"]
+        story.append(Paragraph(f"Model evidence: {escape(observation['model']['model_id'])}@{escape(observation['model']['version'])}; scope: {escape(observation['scope_status'])}; score: {escape(str(observation['score']))}; calibration: {escape(observation['validation']['calibration_id'])}.", styles["BodyText"]))
     if report.evidence["model"] is None:
         story.append(Paragraph("Model evidence: not used.", styles["BodyText"]))
     else:

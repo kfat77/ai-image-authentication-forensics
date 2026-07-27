@@ -1,3 +1,3 @@
-# P3-A model registry location
+# P3-A / P4-B model registry location
 
-This directory is reserved for signed, reviewed model registry records in P3-B. P3-A provides only the schema and protocol in [`docs/p3a/model-registry-design.md`](../../docs/p3a/model-registry-design.md); no model is admitted here.
+P3-A provides the schema and protocol in [`docs/p3a/model-registry-design.md`](../../docs/p3a/model-registry-design.md). P4-B adds one explicitly `experimental` EfficientNet-B0 research candidate. It is not an approved model, cannot enter a formal authentication report, and does not establish detection capability.

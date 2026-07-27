@@ -1,0 +1,16 @@
+{
+  "experiment_id": "p4b-efficientnet-b0-governance-baseline-v1",
+  "purpose": "Governance-chain baseline only; not a detector-performance publication or formal model admission.",
+  "dataset": {"name": "p2b2a-ditfake-mini", "manifest_hash": "81505c1f7713257a2dcf0344c57fc9916b1d01ab2375afd279102434f0ce3a3b", "license_record": "docs/p2b2a-licence-record.md", "sample_count": 24},
+  "model": {"registry_record": "models/registry/p4b-efficientnet-b0-linear-baseline.json", "weight_hash": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934", "status": "experimental"},
+  "calibration": {"registry_record": "calibration/p4b-efficientnet-b0-temperature-v1.json", "method": "temperature_scaling_grid_search", "fit_split": "validation only"},
+  "metrics": {"accuracy": 1.0, "f1": 1.0, "auroc": 1.0, "ece": 0.408368, "brier": 0.169729, "false_positive": 0, "false_negative": 0},
+  "hardware": {"device": "cpu", "platform": "Windows-10-10.0.26200-SP0", "python": "3.11.9", "torch": "2.13.0+cpu"},
+  "code_version": "p2b2a-ditfake-efficientnet-b0-linear-baseline-v1",
+  "limitations": [
+    "Metrics are carried forward from the six-image P2-B2-A held-out fixture solely to bind the governance record; they are not independently recomputed by P4-B.",
+    "The zero error counts are fixture counts, not false-positive/false-negative risk estimates.",
+    "No new image data, model weight, or classifier checkpoint was downloaded or loaded in P4-B.",
+    "The model remains experimental and is blocked from formal reports."
+  ]
+}
