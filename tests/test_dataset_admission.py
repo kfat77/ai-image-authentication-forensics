@@ -38,9 +38,18 @@ def _record(sample_id: str, split: str, *, parent_id: str | None = None, source_
 def test_candidate_manifests_are_complete_and_hash_verified() -> None:
     manifests = [load_manifest(path) for path in sorted((ROOT / "manifests").glob("*.json"))]
 
-    assert {manifest.name for manifest in manifests} == {"cifake", "coco-2017", "diffusiondb", "genimage", "imagenet-ilsvrc-2012", "open-images-v7"}
+    candidates = [manifest for manifest in manifests if manifest.name != "p2b2a-ditfake-mini"]
+    assert {manifest.name for manifest in candidates} == {"cifake", "coco-2017", "diffusiondb", "genimage", "imagenet-ilsvrc-2012", "open-images-v7"}
     assert all(manifest.hash.startswith("sha256:") for manifest in manifests)
-    assert all(manifest.admission_status != "approved" for manifest in manifests)
+    assert all(manifest.admission_status != "approved" for manifest in candidates)
+
+
+def test_p2b2a_research_manifest_has_a_matching_approval_record() -> None:
+    manifest = load_manifest(ROOT / "manifests" / "p2b2a-ditfake-mini.json")
+    approvals = load_approved_manifests(ROOT / "registry" / "approved-manifests.json")
+
+    assert manifest.admission_status == "approved"
+    assert (manifest.name, manifest.version, manifest.hash) in approvals
 
 
 def test_manifest_hash_detects_content_change(tmp_path) -> None:
@@ -102,8 +111,11 @@ def test_manifest_marked_approved_is_rejected_without_trusted_registry_entry() -
         validate_records_for_experiment(manifest, [_record("a", "train"), _record("b", "validation"), _record("c", "test")], frozenset())
 
 
-def test_empty_external_approval_index_is_valid() -> None:
-    assert load_approved_manifests(ROOT / "registry" / "approved-manifests.json") == frozenset()
+def test_external_approval_index_contains_only_the_documented_research_fixture() -> None:
+    approvals = load_approved_manifests(ROOT / "registry" / "approved-manifests.json")
+
+    assert len(approvals) == 1
+    assert next(iter(approvals))[0] == "p2b2a-ditfake-mini"
 
 
 def test_admitted_dataset_rehashes_index_and_image_files(tmp_path) -> None:
@@ -140,7 +152,7 @@ def test_environment_record_contains_required_preparation_fields() -> None:
     record = build_environment_record(ROOT / "manifests", timestamp_utc="2026-07-27T00:00:00+00:00")
 
     assert record["timestamp_utc"] == "2026-07-27T00:00:00+00:00"
-    assert len(record["dataset_manifests"]) == 6
+    assert len(record["dataset_manifests"]) == 7
     assert all("hash" in entry for entry in record["dataset_manifests"])
     assert len(record["encoder_adapters"]) == 6
     assert all("feature_dimension" in entry for entry in record["encoder_adapters"])

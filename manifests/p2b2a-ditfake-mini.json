@@ -1,0 +1,13 @@
+{
+  "admission_status": "approved",
+  "category": "real_coco_and_flux_generated_images",
+  "generation_source": "FLUX",
+  "hash": "sha256:81505c1f7713257a2dcf0344c57fc9916b1d01ab2375afd279102434f0ce3a3b",
+  "index_hash": "sha256:01babc8cc2b2650beba96c1969cba0bd95f5029279839240394d9378d9c7cf06",
+  "license": "Apache-2.0 (DiTFake dataset card); research-only project scope.",
+  "name": "p2b2a-ditfake-mini",
+  "sample_count": 24,
+  "source": "https://huggingface.co/datasets/Jouesmak/DiTFake/tree/ca9ea06c8f926c3a11ca4b657074cc7cbb99e5c7",
+  "split_strategy": "grouped_non_random",
+  "version": "ca9ea06c8f926c3a11ca4b657074cc7cbb99e5c7"
+}

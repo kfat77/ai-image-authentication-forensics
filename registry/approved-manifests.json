@@ -1,4 +1,15 @@
 {
-  "approved_manifests": [],
-  "status": "no_external_dataset_approved_in_p2_b1"
+  "approved_manifests": [
+    {
+      "approval_date": "2026-07-27",
+      "approval_scope": "research-only frozen-feature baseline; no production or commercial use",
+      "commercial_use_permitted": false,
+      "hash": "sha256:81505c1f7713257a2dcf0344c57fc9916b1d01ab2375afd279102434f0ce3a3b",
+      "name": "p2b2a-ditfake-mini",
+      "reviewer": "P2-B2-A source-and-licence review",
+      "training_permitted": true,
+      "version": "ca9ea06c8f926c3a11ca4b657074cc7cbb99e5c7"
+    }
+  ],
+  "status": "research_only_p2_b2_a"
 }

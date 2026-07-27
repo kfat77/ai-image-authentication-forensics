@@ -1,0 +1,125 @@
+{
+  "calibration": {
+    "fit_split": "validation only",
+    "method": "temperature_scaling_grid_search"
+  },
+  "classifier": {
+    "linear_logistic_regression": {
+      "by_generator": {
+        "FLUX": {
+          "accuracy": 1.0,
+          "auroc": null,
+          "brier_score": 0.184998,
+          "ece": 0.429385,
+          "f1": 1.0,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "sample_count": 3
+        },
+        "NONE": {
+          "accuracy": 1.0,
+          "auroc": null,
+          "brier_score": 0.15446,
+          "ece": 0.38735,
+          "f1": 0.0,
+          "pr_auc": null,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sample_count": 3
+        }
+      },
+      "by_image_origin": {
+        "AI_GENERATED": {
+          "accuracy": 1.0,
+          "auroc": null,
+          "brier_score": 0.184998,
+          "ece": 0.429385,
+          "f1": 1.0,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "sample_count": 3
+        },
+        "REAL": {
+          "accuracy": 1.0,
+          "auroc": null,
+          "brier_score": 0.15446,
+          "ece": 0.38735,
+          "f1": 0.0,
+          "pr_auc": null,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sample_count": 3
+        }
+      },
+      "by_transformation": {
+        "ORIGINAL": {
+          "accuracy": 1.0,
+          "auroc": 1.0,
+          "brier_score": 0.169729,
+          "ece": 0.408368,
+          "f1": 1.0,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "sample_count": 6
+        }
+      },
+      "checkpoint_sha256": "17fd6fd6c7b3c3d1cf51d71cd4827be632e0a64fc905548ca8fea97b31098b10",
+      "errors": [],
+      "metrics": {
+        "accuracy": 1.0,
+        "auroc": 1.0,
+        "brier_score": 0.169729,
+        "ece": 0.408368,
+        "f1": 1.0,
+        "pr_auc": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "sample_count": 6
+      },
+      "model_type": "logistic_regression",
+      "temperature": 6.0
+    }
+  },
+  "dataset": {
+    "index_hash": "sha256:01babc8cc2b2650beba96c1969cba0bd95f5029279839240394d9378d9c7cf06",
+    "manifest_hash": "sha256:81505c1f7713257a2dcf0344c57fc9916b1d01ab2375afd279102434f0ce3a3b",
+    "name": "p2b2a-ditfake-mini",
+    "sample_count": 24,
+    "version": "ca9ea06c8f926c3a11ca4b657074cc7cbb99e5c7"
+  },
+  "encoder": {
+    "architecture": "EfficientNet-B0",
+    "checkpoint_sha256": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934",
+    "checkpoint_url": "https://download.pytorch.org/models/efficientnet_b0_rwightman-3dd342df.pth",
+    "feature_dimension": 1280,
+    "identifier": "efficientnet_b0_imagenet1k_v1",
+    "license": "BSD-3-Clause",
+    "preprocessing": "Torchvision IMAGENET1K_V1 transforms: RGB; resize short side 256 bicubic; center crop 224; scale [0,1]; ImageNet mean/std normalization",
+    "repository": "https://github.com/pytorch/vision",
+    "supply_chain_note": "The approved full SHA-256 is verified before loading. The filename's Torchvision metadata token differs from this observed full SHA-256 and is retained as a review note."
+  },
+  "experiment_id": "p2b2a-ditfake-efficientnet-b0-linear-baseline-v1",
+  "feature_artifact": {
+    "feature_dimension": 1280,
+    "relative_path": "experiments/features/p2b2a-ditfake-efficientnet-b0-linear-baseline-v1/features.json",
+    "sample_count": 24,
+    "sha256": "825c032d5535104944cd4468cc15149ddcb933486f8d97008fd09c64e702cc63"
+  },
+  "hardware": {
+    "device": "cpu",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "torch": "2.13.0+cpu"
+  },
+  "limitations": [
+    "24-image, single benchmark/release fixture; not a performance estimate.",
+    "Real and AI samples share a curated benchmark context and may contain source-specific artifacts.",
+    "Only FLUX is represented for generated images; no unknown-generator sample exists.",
+    "The official checkpoint URL's observed full hash differs from Torchvision 0.16.0 metadata; it is recorded and must be independently reviewed before reuse.",
+    "No fine-tuning, production API, AI probability, origin claim, or commercial metric is produced."
+  ],
+  "timestamp_utc": "2026-07-27T06:39:15.510237+00:00"
+}

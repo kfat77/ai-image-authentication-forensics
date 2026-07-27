@@ -5,3 +5,9 @@ __pycache__/
 uploads/
 node_modules/
 .DS_Store
+
+datasets/*/*/images/
+datasets/*/*/source-*.zip
+datasets/*/*/index.jsonl
+experiments/features/
+experiments/error-analysis/
