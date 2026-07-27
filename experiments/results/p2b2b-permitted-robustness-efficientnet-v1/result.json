@@ -2353,7 +2353,7 @@
   "purpose": "research-only robustness and calibration mechanics on a restricted 24-image fixture; not a detection claim",
   "reproducibility": {
     "device": "cpu",
-    "git_revision": "3ec669bdde4b978eccce717b2cf4565d3d943614",
+    "git_revision": "5715f048310e070a7619d27ccf89f24f0991e8aa",
     "platform": "Windows-10-10.0.26200-SP0",
     "preprocessing": "IMAGENET1K_V1 RGB resize-256 bicubic, center-crop-224, ImageNet normalization",
     "python": "3.11.9",
@@ -2367,5 +2367,5 @@
       "RESIZED_075": "Lanczos, 0.75"
     }
   },
-  "timestamp_utc": "2026-07-27T06:53:17.549050+00:00"
+  "timestamp_utc": "2026-07-27T06:54:59.468563+00:00"
 }
