@@ -66,3 +66,5 @@ This project contains two separate product capabilities: creative reconstruction
 - **Governed model record**: the registry-bound identity, architecture, source, licence, checkpoint hash, data/evaluation references, calibration reference, scope, limitations, and admission status for one ML detector model version.
 - **Governed calibration record**: the model-version-specific threshold, ECE, Brier score, validation data/date, allowed scope, excluded conditions, metrics, and limitations that bound one model's auxiliary score.
 - **Out of scope**: the state in which declared input conditions do not meet a governed calibration record's conditions or include an excluded condition. It suppresses the model score and is not an authenticity conclusion.
+- **Registry of Record**: the signed, hash-addressed institutional record of a model, calibration, or Provider admission. It is the authoritative reference for a formal approval workflow, not an automatic approval mechanism.
+- **Provider admission record**: a signed binding of one Provider/version to approved model and calibration record hashes and a defined scope.
