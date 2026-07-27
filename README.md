@@ -1,4 +1,4 @@
-# AI Photo Reconstructor
+# AI Image Authentication Forensics
 
 ## Auditable AI Image Authentication & Digital Forensics Platform
 
