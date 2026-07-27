@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from hashlib import sha256
 import json
 from typing import Literal
@@ -58,7 +59,7 @@ class CalibrationRegistryEntry:
 @dataclass(frozen=True)
 class EvidenceProvenance:
     evidence_id: str
-    source_type: Literal["c2pa", "exif", "metadata", "frequency", "noise", "artifact", "model"]
+    source_type: Literal["c2pa", "exif", "metadata", "frequency", "noise", "artifact", "model", "external"]
     detector_version: str
     timestamp: str
     input_hash: str
@@ -68,8 +69,20 @@ class EvidenceProvenance:
 
     def __post_init__(self) -> None:
         _hash(self.input_hash)
-        if self.source_type not in {"c2pa", "exif", "metadata", "frequency", "noise", "artifact", "model"}:
+        if not all((self.evidence_id, self.detector_version, self.timestamp, self.reliability, self.limitation)):
+            raise ValueError("Evidence provenance requires non-empty identity, time, reliability, and limitation fields.")
+        _utc_timestamp(self.timestamp)
+        if self.source_type not in {"c2pa", "exif", "metadata", "frequency", "noise", "artifact", "model", "external"}:
             raise ValueError("Evidence provenance source_type is unsupported.")
+
+
+def _utc_timestamp(value: str) -> None:
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError("Timestamp must be RFC3339 UTC.") from exc
+    if parsed.tzinfo is None or parsed.utcoffset() != timezone.utc.utcoffset(parsed):
+        raise ValueError("Timestamp must be RFC3339 UTC.")
 
 
 def validate_evidence_provenance(raw: dict[str, object]) -> EvidenceProvenance:

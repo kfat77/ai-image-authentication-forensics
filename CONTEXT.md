@@ -59,3 +59,7 @@ This project contains two separate product capabilities: creative reconstruction
 - **Key provider**: an injected signing and verification capability identified by key ID and algorithm. `local_test` is only for acceptance testing; an external KMS is an institution-supplied adapter, not a cloud binding in this project.
 - **Persistence port**: the interface for storing Cases, preserved Evidence, Audit Events, and Reports. The memory adapter supports tests; database adapters must be selected and governed by the deploying institution.
 - **Recovery drill**: a documented restore-and-verify procedure covering database state, evidence objects, report hashes, and audit-chain integrity. A successful drill is not a certification claim.
+- **Detection provider**: a versioned component that produces hash-bound `DetectionEvidence` from an image and collection context. It supplies review evidence only and cannot directly set an Authenticity Assessment.
+- **Detection evidence**: a provider-produced observation with an optional score, declared scope, limitations, and complete evidence provenance. It is not a standalone origin conclusion.
+- **Provider registry entry**: the governed record of a provider ID, version, type, validation report, limitations, and lifecycle status. Only `approved` entries may contribute evidence to a formal authentication report.
+- **Provider exclusion**: the recorded reason an unapproved, deprecated, or otherwise non-admitted provider could not contribute to formal evidence fusion. It is not a negative finding about the image.

@@ -7,28 +7,34 @@ import json
 from pathlib import Path
 
 from evidence import extract_evidence
+from detection.providers import DetectionProvider, ProviderContext, ProviderRegistry
 
 from .fusion import ADMITTED_MODEL_EVIDENCE_IDS, assess
 from .models import AuthenticationReport, ModelEvidence
 from .pdf_report import render_pdf
 
 
-REPORT_VERSION = "p2c.authentication.1"
+REPORT_VERSION = "p4a.authentication.1"
 
 
 class AuthenticationReportEngine:
-    def create(self, contents: bytes, output_directory: str | Path, submitter_id: str, model_evidence: ModelEvidence | None = None) -> AuthenticationReport:
+    def create(self, contents: bytes, output_directory: str | Path, submitter_id: str, model_evidence: ModelEvidence | None = None, provider_registry: ProviderRegistry | None = None, providers: tuple[DetectionProvider, ...] = ()) -> AuthenticationReport:
         root = Path(output_directory)
         root.mkdir(parents=True, exist_ok=True)
         analysis_time = datetime.now(timezone.utc).isoformat()
         analysis_id = sha256((sha256(contents).hexdigest() + analysis_time).encode()).hexdigest()[:24]
         case_root = root / analysis_id
         bundle = extract_evidence(contents, case_root / "evidence")
-        assessment = assess(bundle, model_evidence)
-        trace_ids = _fusion_trace(bundle, model_evidence)
-        evidence = {"methods": [{"name": detector.name, "version": detector.version, "status": detector.status} for detector in bundle.detector_results], "provenance": _observations(bundle, "metadata"), "image": _image_observations(bundle), "model": None if model_evidence is None else model_evidence.__dict__, "fusion_trace_observation_ids": trace_ids, "evidence_completeness": _completeness(bundle, model_evidence), "explainability_score": _explainability(bundle, trace_ids), "evaluation_metrics": {"false_positive_rate": "not_evaluated_without_approved_labeled_population", "false_negative_rate": "not_evaluated_without_approved_labeled_population", "report_reproducibility": "input_hash_plus_versioned_methods"}}
+        if providers and provider_registry is None:
+            raise ValueError("Provider collection requires a registry.")
+        collection = provider_registry.collect_for_formal_report(providers, contents, ProviderContext(bundle.input_sha256, analysis_time, bundle)) if providers else None
+        provider_evidence = () if collection is None else collection.evidence
+        assessment = assess(bundle, model_evidence, provider_evidence)
+        observation_trace_ids = _fusion_trace_observations(model_evidence)
+        provider_trace_ids = [item.evidence_provenance.evidence_id for item in provider_evidence]
+        evidence = {"methods": [{"name": detector.name, "version": detector.version, "status": detector.status} for detector in bundle.detector_results], "provenance": _observations(bundle, "metadata"), "image": _image_observations(bundle), "providers": [item.to_dict() for item in provider_evidence], "provider_exclusions": [] if collection is None else list(collection.exclusions), "model": None if model_evidence is None else model_evidence.__dict__, "fusion_trace_observation_ids": observation_trace_ids, "fusion_trace_evidence_ids": provider_trace_ids, "evidence_completeness": _completeness(bundle, model_evidence), "explainability_score": _explainability(bundle, observation_trace_ids, provider_trace_ids, provider_evidence), "evaluation_metrics": {"false_positive_rate": "not_evaluated_without_approved_labeled_population", "false_negative_rate": "not_evaluated_without_approved_labeled_population", "report_reproducibility": "input_hash_plus_versioned_methods"}}
         evidence_manifest = case_root / "evidence" / bundle.manifest_path
-        provisional = AuthenticationReport(REPORT_VERSION, analysis_id, analysis_time, bundle.input_sha256, {"authentication": REPORT_VERSION, "evidence": bundle.processing_version}, assessment, _risk_level(assessment.authenticity_status), evidence, {"submitter_id": submitter_id, "input_sha256": bundle.input_sha256, "analysis_time_utc": analysis_time, "tool_version": REPORT_VERSION, "output_sha256": "pending"}, {"evidence_manifest_sha256": _sha_path(evidence_manifest)}, tuple(bundle.limitations) + assessment.limitations)
+        provisional = AuthenticationReport(REPORT_VERSION, analysis_id, analysis_time, bundle.input_sha256, {"authentication": REPORT_VERSION, "evidence": bundle.processing_version, "provider_layer": "p4a.provider.1"}, assessment, _risk_level(assessment.authenticity_status), evidence, {"submitter_id": submitter_id, "input_sha256": bundle.input_sha256, "analysis_time_utc": analysis_time, "tool_version": REPORT_VERSION, "output_sha256": "pending"}, {"evidence_manifest_sha256": _sha_path(evidence_manifest)}, tuple(bundle.limitations) + assessment.limitations)
         pdf_path = case_root / "authentication-report.pdf"
         output_hash = _hash_payload(provisional.to_dict())
         report = AuthenticationReport(**{**provisional.__dict__, "output_sha256": output_hash, "audit_trail": {**provisional.audit_trail, "output_sha256": output_hash}})
@@ -60,16 +66,17 @@ def _completeness(bundle, model_evidence: ModelEvidence | None) -> float:
     return round(sum(categories.values()) / len(categories), 3)
 
 
-def _explainability(bundle, trace_ids: list[str]) -> float:
+def _explainability(bundle, observation_trace_ids: list[str], provider_trace_ids: list[str], provider_evidence=()) -> float:
     observations = [observation for detector in bundle.detector_results for observation in detector.observations]
-    traced = [item for item in observations if item.id in trace_ids]
-    return round(sum(bool(item.limitation and item.source and item.method_version) for item in traced) / len(observations), 3) if observations else 0.0
+    traced = [item for item in observations if item.id in observation_trace_ids]
+    provider_complete = [item for item in provider_evidence if item.evidence_provenance.evidence_id in provider_trace_ids]
+    complete = sum(bool(item.limitation and item.source and item.method_version) for item in traced) + sum(bool(item.evidence_provenance.timestamp and item.evidence_provenance.input_hash and item.limitations) for item in provider_complete)
+    total = len(traced) + len(provider_evidence)
+    return round(complete / total, 3) if total else 0.0
 
 
-def _fusion_trace(bundle, model_evidence: ModelEvidence | None) -> list[str]:
-    if model_evidence is None:
-        return []
-    return list(model_evidence.corroborating_observation_ids)
+def _fusion_trace_observations(model_evidence: ModelEvidence | None) -> list[str]:
+    return [] if model_evidence is None else list(model_evidence.corroborating_observation_ids)
 
 
 def _sha_path(path: Path) -> str:

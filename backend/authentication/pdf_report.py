@@ -25,6 +25,9 @@ def render_pdf(report: AuthenticationReport, path: str | Path) -> None:
     story.extend([Spacer(1, 4 * mm), Paragraph("Evidence list", styles["Heading2"])])
     for observation in report.evidence["provenance"] + report.evidence["image"]:
         story.append(Paragraph(f"{escape(str(observation['id']))} - {escape(str(observation['type']))} - source: {escape(str(observation['source']))} - method: {escape(str(observation['method_version']))}<br/>{escape(str(observation['limitation']))}", styles["BodyText"]))
+    for item in report.evidence.get("providers", []):
+        provenance = item["evidence_provenance"]
+        story.append(Paragraph(f"Provider evidence: {escape(item['provider_id'])}@{escape(item['provider_version'])} - source: {escape(provenance['source_type'])} - evidence: {escape(provenance['evidence_id'])}<br/>{escape('; '.join(item['limitations']))}", styles["BodyText"]))
     if report.evidence["model"] is None:
         story.append(Paragraph("Model evidence: not used.", styles["BodyText"]))
     else:

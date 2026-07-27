@@ -2,17 +2,20 @@
 from __future__ import annotations
 
 from evidence.models import EvidenceBundle
+from detection.providers import DetectionEvidence
 
 from .models import AuthenticityAssessment, ModelEvidence
 
 ADMITTED_MODEL_EVIDENCE_IDS = frozenset()
 
-def assess(bundle: EvidenceBundle, model_evidence: ModelEvidence | None = None) -> AuthenticityAssessment:
+def assess(bundle: EvidenceBundle, model_evidence: ModelEvidence | None = None, provider_evidence: tuple[DetectionEvidence, ...] = ()) -> AuthenticityAssessment:
     provenance = _provenance_observations(bundle)
     summary = ["Deterministic metadata, frequency, noise, compression, and artifact observations were extracted."]
     limitations = ["The assessment is an aid to human review, not an origin fact or judicial conclusion.", "Absence of EXIF, C2PA, or provenance data is not evidence that an image is AI-generated."]
     if provenance:
         summary.append("Source/provenance observations are included without converting them into a truth claim.")
+    if provider_evidence:
+        summary.append(f"{len(provider_evidence)} approved provider evidence item(s) entered fusion as auxiliary review evidence; providers cannot decide the authenticity status.")
     if model_evidence is None:
         limitations.append("No admitted calibrated vision-model evidence was available; no model score was used in fusion.")
         return AuthenticityAssessment("uncertain", "low", tuple(summary), tuple(limitations))
