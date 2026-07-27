@@ -14,6 +14,7 @@ from detection.providers import ProviderContext, ProviderRegistrationError, Prov
 from detection.providers.ml import MLDetectorProvider, ModelCalibrationRegistry, ModelGovernanceError
 from detection.providers.ml import ScopeAttestationVerifier
 from deployment.key_provider import LocalTestKeyProvider
+from institutional_registry import ApprovalStatus, InstitutionalRegistry
 
 
 HASH = "a" * 64
@@ -61,6 +62,19 @@ def _scope_verifier() -> ScopeAttestationVerifier:
     return ScopeAttestationVerifier({key.key_id: key})
 
 
+def _institutional_admission() -> InstitutionalRegistry:
+    """A test-only Registry of Record admission for the P4-B fixture provider."""
+    registry = InstitutionalRegistry(LocalTestKeyProvider(b"p4c-registry-key"))
+    registry.register_provider("ml.fixture-efficientnet", "v1")
+    model = registry.create_model({"model_id": "fixture-efficientnet", "version": "v1", "architecture": "EfficientNet-B0 + linear logistic regression", "weight_hash": HASH, "source": "official-fixture-source", "license": "BSD-3-Clause", "training_data_reference": "licensed-fixture-dataset", "evaluation_reference": "experiments/p4b/fixture.json", "calibration_id": "cal.fixture.v1", "provider_id": "ml.fixture-efficientnet"}, "submitter")
+    calibration = registry.create_calibration({"calibration_id": "cal.fixture.v1", "model_id": "fixture-efficientnet", "dataset_reference": "licensed-fixture-validation", "method": "temperature_scaling", "metrics": {"ece": 0.1, "brier": 0.1}, "threshold": 0.5, "scope": ["JPEG_FILE", "ORIGINAL_CAPTURE_ATTESTED"], "limitations": ["Fixture calibration is test-only."]}, "submitter")
+    for state in (ApprovalStatus.SUBMITTED, ApprovalStatus.VALIDATED, ApprovalStatus.REVIEWED, ApprovalStatus.APPROVED):
+        model = registry.transition(model.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "fixture review")
+        calibration = registry.transition(calibration.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "fixture review")
+    registry.admit_provider("ml.fixture-efficientnet", "v1", model.record_hash, calibration.record_hash, ("JPEG_FILE", "ORIGINAL_CAPTURE_ATTESTED"))
+    return registry
+
+
 def test_unapproved_or_uncalibrated_model_is_rejected(tmp_path):
     image = _image()
     with pytest.raises(ModelGovernanceError, match="approved"):
@@ -99,12 +113,21 @@ def test_approved_ml_provider_enters_report_as_calibrated_auxiliary_evidence(tmp
     provider = MLDetectorProvider(registry_path, "fixture-efficientnet", "v1", FixtureReader(), _scope_verifier())
     registry = ProviderRegistry()
     registry.register(ProviderRegistryEntry(provider.provider_id, provider.provider_version, "ml_detector", "approved", "tests/test_ml_detector_provider.py", ("Fixture admission only; not an institutional approval.",)))
-    report = AuthenticationReportEngine().create(image, tmp_path / "report", submitter_id="reviewer", provider_registry=registry, providers=(provider,), provider_scope_attestation=_context(image).scope_attestation)
+    report = AuthenticationReportEngine().create(image, tmp_path / "report", submitter_id="reviewer", provider_registry=registry, providers=(provider,), provider_scope_attestation=_context(image).scope_attestation, institutional_registry=_institutional_admission())
     assert report.assessment.authenticity_status == "uncertain"
     model_evidence = report.evidence["model_evidence"]
     assert model_evidence[0]["observation"]["score"] == pytest.approx(0.63)
     assert model_evidence[0]["observation"]["scope_status"] == "IN_SCOPE"
     assert model_evidence[0]["observation"]["validation"]["method"] == "temperature_scaling"
+    assert model_evidence[0]["registry_verified"] is True
+
+
+def test_ml_provider_without_registry_of_record_is_rejected_by_report_engine(tmp_path):
+    image = _image(); provider = MLDetectorProvider(_write_registry(tmp_path / "records"), "fixture-efficientnet", "v1", FixtureReader(), _scope_verifier())
+    registry = ProviderRegistry()
+    registry.register(ProviderRegistryEntry(provider.provider_id, provider.provider_version, "ml_detector", "approved", "fixture", ("fixture",)))
+    with pytest.raises(ValueError, match="Registry of Record"):
+        AuthenticationReportEngine().create(image, tmp_path / "report", submitter_id="reviewer", provider_registry=registry, providers=(provider,), provider_scope_attestation=_context(image).scope_attestation)
 
 
 def test_registered_temperature_transform_changes_non_unit_score(tmp_path):

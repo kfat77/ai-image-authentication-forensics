@@ -8,6 +8,7 @@ from pathlib import Path
 
 from evidence import extract_evidence
 from detection.providers import DetectionProvider, ProviderContext, ProviderRegistry, ScopeAttestation
+from institutional_registry import InstitutionalRegistry
 
 from .fusion import ADMITTED_MODEL_EVIDENCE_IDS, assess
 from .models import AuthenticationReport, ModelEvidence
@@ -18,7 +19,7 @@ REPORT_VERSION = "p4a.authentication.1"
 
 
 class AuthenticationReportEngine:
-    def create(self, contents: bytes, output_directory: str | Path, submitter_id: str, model_evidence: ModelEvidence | None = None, provider_registry: ProviderRegistry | None = None, providers: tuple[DetectionProvider, ...] = (), provider_scope_attestation: ScopeAttestation | None = None, registry_references: dict[str, str] | None = None) -> AuthenticationReport:
+    def create(self, contents: bytes, output_directory: str | Path, submitter_id: str, model_evidence: ModelEvidence | None = None, provider_registry: ProviderRegistry | None = None, providers: tuple[DetectionProvider, ...] = (), provider_scope_attestation: ScopeAttestation | None = None, institutional_registry: InstitutionalRegistry | None = None) -> AuthenticationReport:
         root = Path(output_directory)
         root.mkdir(parents=True, exist_ok=True)
         analysis_time = datetime.now(timezone.utc).isoformat()
@@ -27,12 +28,23 @@ class AuthenticationReportEngine:
         bundle = extract_evidence(contents, case_root / "evidence")
         if providers and provider_registry is None:
             raise ValueError("Provider collection requires a registry.")
+        # Registry references are never accepted from a report caller.  When an
+        # institutional Registry is supplied, resolve and verify every provider
+        # before it can contribute formal report evidence.
+        registry_required = tuple(provider for provider in providers if provider.provider_id.startswith("ml."))
+        if registry_required and institutional_registry is None:
+            raise ValueError("An ML provider requires a verified institutional Registry of Record admission.")
+        verified_registry = {} if institutional_registry is None else {
+            (provider.provider_id, provider.provider_version): institutional_registry.resolve_provider_for_report(provider.provider_id, provider.provider_version)
+            for provider in providers
+        }
         collection = provider_registry.collect_for_formal_report(providers, contents, ProviderContext(bundle.input_sha256, analysis_time, bundle, provider_scope_attestation)) if providers else None
         provider_evidence = () if collection is None else collection.evidence
         assessment = assess(bundle, model_evidence, provider_evidence)
         observation_trace_ids = _fusion_trace_observations(model_evidence)
         provider_trace_ids = [item.evidence_provenance.evidence_id for item in provider_evidence]
-        evidence = {"methods": [{"name": detector.name, "version": detector.version, "status": detector.status} for detector in bundle.detector_results], "provenance": _observations(bundle, "metadata"), "image": _image_observations(bundle), "providers": [item.to_dict() for item in provider_evidence], "provider_exclusions": [] if collection is None else list(collection.exclusions), "model_evidence": [item.to_dict() for item in provider_evidence if item.evidence_provenance.source_type == "model"], "registry_references": registry_references or {}, "model": None if model_evidence is None else model_evidence.__dict__, "fusion_trace_observation_ids": observation_trace_ids, "fusion_trace_evidence_ids": provider_trace_ids, "evidence_completeness": _completeness(bundle, model_evidence), "explainability_score": _explainability(bundle, observation_trace_ids, provider_trace_ids, provider_evidence), "evaluation_metrics": {"false_positive_rate": "not_evaluated_without_approved_labeled_population", "false_negative_rate": "not_evaluated_without_approved_labeled_population", "report_reproducibility": "input_hash_plus_versioned_methods"}}
+        report_provider_evidence = [_registry_enriched(item.to_dict(), verified_registry.get((item.provider_id, item.provider_version))) for item in provider_evidence]
+        evidence = {"methods": [{"name": detector.name, "version": detector.version, "status": detector.status} for detector in bundle.detector_results], "provenance": _observations(bundle, "metadata"), "image": _image_observations(bundle), "providers": report_provider_evidence, "provider_exclusions": [] if collection is None else list(collection.exclusions), "model_evidence": [item for item in report_provider_evidence if item["evidence_provenance"]["source_type"] == "model"], "registry_references": list(verified_registry.values()), "model": None if model_evidence is None else model_evidence.__dict__, "fusion_trace_observation_ids": observation_trace_ids, "fusion_trace_evidence_ids": provider_trace_ids, "evidence_completeness": _completeness(bundle, model_evidence), "explainability_score": _explainability(bundle, observation_trace_ids, provider_trace_ids, provider_evidence), "evaluation_metrics": {"false_positive_rate": "not_evaluated_without_approved_labeled_population", "false_negative_rate": "not_evaluated_without_approved_labeled_population", "report_reproducibility": "input_hash_plus_versioned_methods"}}
         evidence_manifest = case_root / "evidence" / bundle.manifest_path
         provisional = AuthenticationReport(REPORT_VERSION, analysis_id, analysis_time, bundle.input_sha256, {"authentication": REPORT_VERSION, "evidence": bundle.processing_version, "provider_layer": "p4a.provider.1"}, assessment, _risk_level(assessment.authenticity_status), evidence, {"submitter_id": submitter_id, "input_sha256": bundle.input_sha256, "analysis_time_utc": analysis_time, "tool_version": REPORT_VERSION, "output_sha256": "pending"}, {"evidence_manifest_sha256": _sha_path(evidence_manifest)}, tuple(bundle.limitations) + assessment.limitations)
         pdf_path = case_root / "authentication-report.pdf"
@@ -50,6 +62,12 @@ class AuthenticationReportEngine:
 def _hash_payload(payload: dict[str, object]) -> str:
     payload = {**payload, "output_sha256": "", "audit_trail": {**payload["audit_trail"], "output_sha256": ""}}
     return sha256(json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def _registry_enriched(evidence: dict[str, object], reference: dict[str, str] | None) -> dict[str, object]:
+    """Attach verification facts to report output without altering provider evidence."""
+    return {**evidence, "registry_verified": reference is not None,
+            "verified_record_hash": None if reference is None else reference["verified_record_hash"]}
 
 
 def _observations(bundle, detector_name: str) -> list[dict[str, object]]:
