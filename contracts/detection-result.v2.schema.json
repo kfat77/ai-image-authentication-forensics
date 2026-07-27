@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kfat77/ai-photo-reconstructor/contracts/detection-result.v2.schema.json",
+  "title": "DetectionResult v2 (draft)",
+  "description": "P0 design artifact only. It does not claim that a detector is implemented.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "detection_id",
+    "contract_version",
+    "methodology",
+    "ai_probability",
+    "confidence",
+    "suspected_model",
+    "evidence",
+    "suspicious_regions",
+    "metadata_analysis",
+    "forensic_summary"
+  ],
+  "properties": {
+    "detection_id": {"type": "string", "minLength": 1},
+    "contract_version": {"const": "2.0"},
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "evaluation_scope", "detectors"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "evaluation_scope": {"type": "string", "minLength": 1},
+        "detectors": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "ai_probability": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "calibration_status"],
+      "properties": {
+        "value": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "calibration_status": {"enum": ["approved", "experimental", "not_evaluated"]},
+        "interval_95": {
+          "type": ["array", "null"],
+          "prefixItems": [{"type": "number", "minimum": 0, "maximum": 1}, {"type": "number", "minimum": 0, "maximum": 1}],
+          "items": false
+        }
+      }
+    },
+    "suspected_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "probability", "attribution_status"],
+      "properties": {
+        "family": {"enum": ["midjourney", "stable_diffusion", "sdxl", "flux", "dall_e", "imagen", "leonardo", "unknown"]},
+        "probability": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "attribution_status": {"enum": ["calibrated_hypothesis", "experimental_hypothesis", "not_evaluated"]},
+        "candidate_families": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "level", "kind", "finding", "source", "limitation"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "level": {"enum": ["E0", "E1", "E2", "E3", "E4"]},
+          "kind": {"enum": ["metadata", "c2pa", "frequency", "compression", "noise", "artifact", "semantic", "classifier", "ensemble"]},
+          "finding": {"type": "string", "minLength": 1},
+          "source": {"type": "string", "minLength": 1},
+          "limitation": {"type": "string", "minLength": 1},
+          "score": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "suspicious_regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["region_id", "x", "y", "width", "height", "source", "limitation"],
+        "properties": {
+          "region_id": {"type": "string", "minLength": 1},
+          "x": {"type": "number", "minimum": 0, "maximum": 1},
+          "y": {"type": "number", "minimum": 0, "maximum": 1},
+          "width": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+          "height": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+          "source": {"type": "string", "minLength": 1},
+          "limitation": {"type": "string", "minLength": 1},
+          "relevance_score": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "metadata_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exif_status", "c2pa_status", "observations"],
+      "properties": {
+        "exif_status": {"enum": ["present", "not_present", "unreadable", "not_checked"]},
+        "c2pa_status": {"enum": ["valid", "invalid", "not_present", "unsupported", "not_checked"]},
+        "claim_generator": {"type": ["string", "null"]},
+        "observations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "forensic_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "review_required", "limitations"],
+      "properties": {
+        "summary": {"type": "string", "minLength": 1},
+        "review_required": {"const": true},
+        "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"confidence": {"properties": {"calibration_status": {"const": "approved"}}, "required": ["calibration_status"]}}, "required": ["confidence"]},
+      "then": {"properties": {"ai_probability": {"type": "number"}}},
+      "else": {"properties": {"ai_probability": {"type": "null"}}}
+    }
+  ]
+}
