@@ -28,3 +28,10 @@ This project contains two separate product capabilities: creative reconstruction
 - **Audit event**: a structured record of a security-relevant operation. It contains no image bytes, prompts, or API secrets.
 - **Provenance evidence**: a cryptographically validated statement about an asset's origin or edit history, such as a valid C2PA manifest. It is distinct from visual-model detection or a reconstruction suggestion.
 - **Provenance status**: the result of asking an approved verifier to check an uploaded asset. `valid`, `invalid`, `not_present`, and `unsupported` are evidence states; `not_checked` means no verifier was configured.
+- **Dataset manifest**: the versioned record of a dataset's source, licence, permitted uses, review state, and integrity hash. A manifest is not an approval by itself.
+- **Approved dataset**: a dataset manifest explicitly cleared for the defined research purpose. Only an approved dataset may pass the experiment training gate.
+- **Feature encoder**: a versioned component that maps image bytes to a feature vector. In P2-A, encoder families are registry entries only; no pretrained weights are installed or loaded.
+- **Baseline classifier**: a small, reproducible classifier fitted on feature vectors to validate the research pipeline. Its scores are experimental measurements, not an origin claim.
+- **Calibration set**: data held out from fitting a classifier and used only to align its numerical scores with observed outcomes in the declared population.
+- **Unknown rejection**: the rule that returns `unknown` when no known generator label has sufficient support. It prevents a closed-set attribution model from being forced to name a generator.
+- **Experiment record**: the immutable result manifest for one run, including data version, implementation version, hyperparameters, hardware, metrics, and checkpoint hash.

@@ -1,0 +1,441 @@
+{
+  "calibration": {
+    "candidate_range": "0.25..6.00 step 0.05",
+    "method": "temperature_scaling_grid_search",
+    "split": "validation",
+    "version": "v1"
+  },
+  "code": {
+    "source_sha256": "b3458bfd92acd14ac4963801c31739e435865caae24f2b5f4a6b894bafe6b4bb",
+    "version": "p2a-smoke-v1"
+  },
+  "dataset": {
+    "approval_scope": "repository-owned synthetic feature fixture only; no external images",
+    "approval_status": "approved",
+    "id": "synthetic-feature-fixture-v1",
+    "manifest_hash": "9752fec9d00fbb13dd2abd88ffcc47e7d848f788cde322a6fddfcd43d2f3a44b",
+    "sample_counts": {
+      "test": 24,
+      "train": 72,
+      "validation": 24
+    },
+    "version": "1"
+  },
+  "encoder": {
+    "feature_settings": {
+      "dimensions": 4,
+      "source": "deterministic synthetic numeric fixture"
+    },
+    "identifier": "none",
+    "version": "not-applicable"
+  },
+  "experiment_id": "p2a-synthetic-feature-pipeline-smoke-v1",
+  "hardware": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9"
+  },
+  "models": {
+    "linear_layer": {
+      "by_dataset": {
+        "synthetic-feature-fixture-v1": {
+          "accuracy": 0.875,
+          "auroc": 0.9375,
+          "brier_score": 0.099912,
+          "ece": 0.166789,
+          "f1": 0.857143,
+          "pr_auc": 0.954778,
+          "precision": 1.0,
+          "recall": 0.75,
+          "sample_count": 24
+        }
+      },
+      "by_generator": {
+        "synthetic-generator-fixture": {
+          "accuracy": 0.75,
+          "auroc": null,
+          "brier_score": 0.179564,
+          "ece": 0.28274,
+          "f1": 0.857143,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 0.75,
+          "sample_count": 12
+        },
+        "synthetic-real-fixture": {
+          "accuracy": 1.0,
+          "auroc": null,
+          "brier_score": 0.020261,
+          "ece": 0.089649,
+          "f1": 0.0,
+          "pr_auc": null,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sample_count": 12
+        }
+      },
+      "by_transformation": {
+        "jpeg_q75_fixture": {
+          "accuracy": 0.875,
+          "auroc": 0.9375,
+          "brier_score": 0.081352,
+          "ece": 0.196985,
+          "f1": 0.857143,
+          "pr_auc": 0.95,
+          "precision": 1.0,
+          "recall": 0.75,
+          "sample_count": 8
+        },
+        "none": {
+          "accuracy": 0.75,
+          "auroc": 0.875,
+          "brier_score": 0.200824,
+          "ece": 0.265931,
+          "f1": 0.666667,
+          "pr_auc": 0.916667,
+          "precision": 1.0,
+          "recall": 0.5,
+          "sample_count": 8
+        },
+        "resize_075_fixture": {
+          "accuracy": 1.0,
+          "auroc": 1.0,
+          "brier_score": 0.017561,
+          "ece": 0.078837,
+          "f1": 1.0,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "sample_count": 8
+        }
+      },
+      "checkpoint_sha256": "8ec8118cea1818af810d5a8273eec524f6b60d4a3769a8b2dd418bbd97d573e4",
+      "error_cases": [
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-103",
+          "score": 0.382375,
+          "transformation": "jpeg_q75_fixture"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-111",
+          "score": 0.240075,
+          "transformation": "none"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-117",
+          "score": 0.023012,
+          "transformation": "none"
+        }
+      ],
+      "hyperparameters": {
+        "epochs": 250,
+        "learning_rate": 0.05
+      },
+      "model_implementation_version": "p2a-baseline-v1",
+      "model_type": "linear_layer",
+      "overall_metrics": {
+        "accuracy": 0.875,
+        "auroc": 0.9375,
+        "brier_score": 0.099912,
+        "ece": 0.166789,
+        "f1": 0.857143,
+        "pr_auc": 0.954778,
+        "precision": 1.0,
+        "recall": 0.75,
+        "sample_count": 24
+      },
+      "temperature": 0.5
+    },
+    "logistic_regression": {
+      "by_dataset": {
+        "synthetic-feature-fixture-v1": {
+          "accuracy": 0.875,
+          "auroc": 0.930556,
+          "brier_score": 0.099214,
+          "ece": 0.119634,
+          "f1": 0.857143,
+          "pr_auc": 0.948902,
+          "precision": 1.0,
+          "recall": 0.75,
+          "sample_count": 24
+        }
+      },
+      "by_generator": {
+        "synthetic-generator-fixture": {
+          "accuracy": 0.75,
+          "auroc": null,
+          "brier_score": 0.170961,
+          "ece": 0.280088,
+          "f1": 0.857143,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 0.75,
+          "sample_count": 12
+        },
+        "synthetic-real-fixture": {
+          "accuracy": 1.0,
+          "auroc": null,
+          "brier_score": 0.027467,
+          "ece": 0.109289,
+          "f1": 0.0,
+          "pr_auc": null,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sample_count": 12
+        }
+      },
+      "by_transformation": {
+        "jpeg_q75_fixture": {
+          "accuracy": 0.875,
+          "auroc": 0.9375,
+          "brier_score": 0.079276,
+          "ece": 0.092975,
+          "f1": 0.857143,
+          "pr_auc": 0.95,
+          "precision": 1.0,
+          "recall": 0.75,
+          "sample_count": 8
+        },
+        "none": {
+          "accuracy": 0.75,
+          "auroc": 0.8125,
+          "brier_score": 0.200892,
+          "ece": 0.209981,
+          "f1": 0.666667,
+          "pr_auc": 0.854167,
+          "precision": 1.0,
+          "recall": 0.5,
+          "sample_count": 8
+        },
+        "resize_075_fixture": {
+          "accuracy": 1.0,
+          "auroc": 1.0,
+          "brier_score": 0.017475,
+          "ece": 0.083484,
+          "f1": 1.0,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "sample_count": 8
+        }
+      },
+      "checkpoint_sha256": "8be7dd93d8df0365f9a3795e160c04d531924a5d7f37a93f48ea55de04b064c0",
+      "error_cases": [
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-103",
+          "score": 0.437401,
+          "transformation": "jpeg_q75_fixture"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-111",
+          "score": 0.239743,
+          "transformation": "none"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-117",
+          "score": 0.042171,
+          "transformation": "none"
+        }
+      ],
+      "hyperparameters": {
+        "epochs": 300,
+        "learning_rate": 0.08
+      },
+      "model_implementation_version": "p2a-baseline-v1",
+      "model_type": "logistic_regression",
+      "overall_metrics": {
+        "accuracy": 0.875,
+        "auroc": 0.930556,
+        "brier_score": 0.099214,
+        "ece": 0.119634,
+        "f1": 0.857143,
+        "pr_auc": 0.948902,
+        "precision": 1.0,
+        "recall": 0.75,
+        "sample_count": 24
+      },
+      "temperature": 0.65
+    },
+    "tiny_mlp": {
+      "by_dataset": {
+        "synthetic-feature-fixture-v1": {
+          "accuracy": 0.75,
+          "auroc": 0.652778,
+          "brier_score": 0.227202,
+          "ece": 0.251492,
+          "f1": 0.727273,
+          "pr_auc": 0.768015,
+          "precision": 0.8,
+          "recall": 0.666667,
+          "sample_count": 24
+        }
+      },
+      "by_generator": {
+        "synthetic-generator-fixture": {
+          "accuracy": 0.666667,
+          "auroc": null,
+          "brier_score": 0.287544,
+          "ece": 0.425085,
+          "f1": 0.8,
+          "pr_auc": 1.0,
+          "precision": 1.0,
+          "recall": 0.666667,
+          "sample_count": 12
+        },
+        "synthetic-real-fixture": {
+          "accuracy": 0.833333,
+          "auroc": null,
+          "brier_score": 0.166861,
+          "ece": 0.369793,
+          "f1": 0.0,
+          "pr_auc": null,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sample_count": 12
+        }
+      },
+      "by_transformation": {
+        "jpeg_q75_fixture": {
+          "accuracy": 0.625,
+          "auroc": 0.5625,
+          "brier_score": 0.294014,
+          "ece": 0.317027,
+          "f1": 0.666667,
+          "pr_auc": 0.691667,
+          "precision": 0.6,
+          "recall": 0.75,
+          "sample_count": 8
+        },
+        "none": {
+          "accuracy": 0.75,
+          "auroc": 0.625,
+          "brier_score": 0.239652,
+          "ece": 0.28191,
+          "f1": 0.666667,
+          "pr_auc": 0.767857,
+          "precision": 1.0,
+          "recall": 0.5,
+          "sample_count": 8
+        },
+        "resize_075_fixture": {
+          "accuracy": 0.875,
+          "auroc": 0.75,
+          "brier_score": 0.14794,
+          "ece": 0.299194,
+          "f1": 0.857143,
+          "pr_auc": 0.875,
+          "precision": 1.0,
+          "recall": 0.75,
+          "sample_count": 8
+        }
+      },
+      "checkpoint_sha256": "3befd5c3436159fa508cb930c5cac45e7d9d565e5213e7f3fd5d7c3bdf3a74e3",
+      "error_cases": [
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-real-fixture",
+          "label": 0,
+          "prediction": 1,
+          "sample_id": "fixture-106",
+          "score": 0.577122,
+          "transformation": "jpeg_q75_fixture"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-real-fixture",
+          "label": 0,
+          "prediction": 1,
+          "sample_id": "fixture-100",
+          "score": 0.771201,
+          "transformation": "jpeg_q75_fixture"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-111",
+          "score": 0.161329,
+          "transformation": "none"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-107",
+          "score": 0.153889,
+          "transformation": "resize_075_fixture"
+        },
+        {
+          "dataset": "synthetic-feature-fixture-v1",
+          "generator": "synthetic-generator-fixture",
+          "label": 1,
+          "prediction": 0,
+          "sample_id": "fixture-117",
+          "score": 0.146276,
+          "transformation": "none"
+        }
+      ],
+      "hyperparameters": {
+        "epochs": 350,
+        "hidden_width": 6,
+        "learning_rate": 0.03,
+        "seed": 20260727
+      },
+      "model_implementation_version": "p2a-baseline-v1",
+      "model_type": "tiny_mlp",
+      "overall_metrics": {
+        "accuracy": 0.75,
+        "auroc": 0.652778,
+        "brier_score": 0.227202,
+        "ece": 0.251492,
+        "f1": 0.727273,
+        "pr_auc": 0.768015,
+        "precision": 0.8,
+        "recall": 0.666667,
+        "sample_count": 24
+      },
+      "temperature": 2.7
+    }
+  },
+  "prohibited_claims": [
+    "AI-image detection accuracy",
+    "generator attribution accuracy",
+    "model comparison beyond this synthetic fixture",
+    "production suitability"
+  ],
+  "purpose": "pipeline mechanics validation only; not a scientific or product detection result",
+  "random_seed": 20260727,
+  "tasks_exercised": [
+    "Task A binary pipeline mechanics",
+    "metric grouping mechanics"
+  ],
+  "tasks_not_exercised": [
+    "Task B generator attribution requires an approved labelled image dataset.",
+    "Task C robustness requires approved images and real JPEG, resize, crop, screenshot, and AI-edit transformations."
+  ]
+}
