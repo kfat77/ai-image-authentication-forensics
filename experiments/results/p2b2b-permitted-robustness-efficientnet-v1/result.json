@@ -1,0 +1,2371 @@
+{
+  "classifier_evaluations": {
+    "linear_logistic_regression": {
+      "checkpoint_sha256": "c9e42e61b8eff88ba5e2aebe096ee13d109f5832327ced7cc6c261eb67b66734",
+      "hyperparameters": {
+        "epochs": 250,
+        "learning_rate": 0.03
+      },
+      "model_type": "logistic_regression",
+      "robustness": {
+        "CENTER_CROP_080": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.029965,
+                "ece": 0.152605,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.008273,
+                "ece": 0.077343,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.019119,
+              "ece": 0.114974,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.164298,
+                "ece": 0.405063,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.230392,
+                "ece": 0.479318,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.833333,
+              "auroc": 1.0,
+              "brier_score": 0.197345,
+              "ece": 0.274719,
+              "f1": 0.857143,
+              "pr_auc": 1.0,
+              "precision": 0.75,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.180244,
+                "ece": 0.423805,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.149831,
+                "ece": 0.385042,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.165037,
+              "ece": 0.404424,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "COLOR_BRIGHTNESS_115": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.048177,
+                "ece": 0.193831,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.027114,
+                "ece": 0.123475,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.037645,
+              "ece": 0.158653,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.170196,
+                "ece": 0.412256,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.233814,
+                "ece": 0.481816,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.833333,
+              "auroc": 1.0,
+              "brier_score": 0.202005,
+              "ece": 0.272037,
+              "f1": 0.857143,
+              "pr_auc": 1.0,
+              "precision": 0.75,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.190734,
+                "ece": 0.435942,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.156247,
+                "ece": 0.39011,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.17349,
+              "ece": 0.413026,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "JPEG_Q75": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.03805,
+                "ece": 0.173698,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.032766,
+                "ece": 0.136465,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.035408,
+              "ece": 0.155082,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.167721,
+                "ece": 0.409294,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.235949,
+                "ece": 0.483868,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.833333,
+              "auroc": 1.0,
+              "brier_score": 0.201835,
+              "ece": 0.270554,
+              "f1": 0.857143,
+              "pr_auc": 1.0,
+              "precision": 0.75,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.186275,
+                "ece": 0.430935,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.159298,
+                "ece": 0.393515,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.172787,
+              "ece": 0.412225,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "ORIGINAL": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.037263,
+                "ece": 0.170069,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.025116,
+                "ece": 0.120306,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.031189,
+              "ece": 0.145188,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.166988,
+                "ece": 0.408374,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.232162,
+                "ece": 0.479923,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.833333,
+              "auroc": 1.0,
+              "brier_score": 0.199575,
+              "ece": 0.26972,
+              "f1": 0.857143,
+              "pr_auc": 1.0,
+              "precision": 0.75,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.184998,
+                "ece": 0.429385,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.15446,
+                "ece": 0.38735,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.169729,
+              "ece": 0.408368,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "RESIZED_075": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.037605,
+                "ece": 0.170618,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.030313,
+                "ece": 0.130578,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.033959,
+              "ece": 0.150598,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.167045,
+                "ece": 0.40844,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.232626,
+                "ece": 0.480113,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.833333,
+              "auroc": 1.0,
+              "brier_score": 0.199836,
+              "ece": 0.301153,
+              "f1": 0.857143,
+              "pr_auc": 1.0,
+              "precision": 0.75,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.185102,
+                "ece": 0.429498,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.155605,
+                "ece": 0.387972,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.170353,
+              "ece": 0.408735,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        }
+      }
+    },
+    "linear_svm": {
+      "checkpoint_sha256": "7807ed7d2cc494b51d0d7058120242c94181afbf96bfa53833171a577a3a27d0",
+      "hyperparameters": {
+        "epochs": 250,
+        "learning_rate": 0.03
+      },
+      "model_type": "linear_svm",
+      "robustness": {
+        "CENTER_CROP_080": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.123263,
+                "ece": 0.349728,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.069877,
+                "ece": 0.25623,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.09657,
+              "ece": 0.302979,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.211167,
+                "ece": 0.459517,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.247636,
+                "ece": 0.497547,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 1.0,
+              "brier_score": 0.229401,
+              "ece": 0.142717,
+              "f1": 0.75,
+              "pr_auc": 1.0,
+              "precision": 0.6,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.224774,
+                "ece": 0.47407,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.206716,
+                "ece": 0.454414,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.215745,
+              "ece": 0.464242,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "COLOR_BRIGHTNESS_115": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.136974,
+                "ece": 0.368274,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.094063,
+                "ece": 0.283772,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.115518,
+              "ece": 0.326023,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.213008,
+                "ece": 0.461512,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.249757,
+                "ece": 0.499493,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 1.0,
+              "brier_score": 0.231383,
+              "ece": 0.140136,
+              "f1": 0.75,
+              "pr_auc": 1.0,
+              "precision": 0.6,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.227961,
+                "ece": 0.477408,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.210226,
+                "ece": 0.457721,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.219093,
+              "ece": 0.467564,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "JPEG_Q75": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.129711,
+                "ece": 0.358662,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.098621,
+                "ece": 0.289905,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.114166,
+              "ece": 0.324284,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.212061,
+                "ece": 0.460487,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.250388,
+                "ece": 0.500103,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 1.0,
+              "brier_score": 0.231224,
+              "ece": 0.139173,
+              "f1": 0.75,
+              "pr_auc": 1.0,
+              "precision": 0.6,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.226318,
+                "ece": 0.475693,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.211216,
+                "ece": 0.45874,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.218767,
+              "ece": 0.467217,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "ORIGINAL": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.127716,
+                "ece": 0.355756,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.092659,
+                "ece": 0.280661,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.110188,
+              "ece": 0.318208,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.211766,
+                "ece": 0.460166,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.249134,
+                "ece": 0.498845,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 1.0,
+              "brier_score": 0.23045,
+              "ece": 0.139128,
+              "f1": 0.75,
+              "pr_auc": 1.0,
+              "precision": 0.6,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.225811,
+                "ece": 0.475157,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.209324,
+                "ece": 0.456664,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.217568,
+              "ece": 0.46591,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        },
+        "RESIZED_075": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.127878,
+                "ece": 0.355938,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.096146,
+                "ece": 0.283615,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.112012,
+              "ece": 0.319776,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.25,
+                "ece": 0.5,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.25,
+              "ece": 0.0,
+              "f1": 0.666667,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.211783,
+                "ece": 0.460184,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.249193,
+                "ece": 0.498862,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 1.0,
+              "brier_score": 0.230488,
+              "ece": 0.1386,
+              "f1": 0.75,
+              "pr_auc": 1.0,
+              "precision": 0.6,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.22584,
+                "ece": 0.475186,
+                "f1": 1.0,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 1.0,
+                "auroc": null,
+                "brier_score": 0.209482,
+                "ece": 0.456714,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 1.0,
+              "auroc": 1.0,
+              "brier_score": 0.217661,
+              "ece": 0.46595,
+              "f1": 1.0,
+              "pr_auc": 1.0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "sample_count": 6
+            }
+          }
+        }
+      }
+    },
+    "tiny_mlp": {
+      "checkpoint_sha256": "c4aef6129675fe2342fb1ef171c4d6baeb0ac8ed99cfb4c52e9d5da4c184751c",
+      "hyperparameters": {
+        "epochs": 250,
+        "hidden_width": 6,
+        "learning_rate": 0.02,
+        "seed": 20260727
+      },
+      "model_type": "tiny_mlp",
+      "robustness": {
+        "CENTER_CROP_080": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.322978,
+                "ece": 0.520912,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.176049,
+                "ece": 0.313564,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.555556,
+              "brier_score": 0.249513,
+              "ece": 0.314935,
+              "f1": 0.666667,
+              "pr_auc": 0.588889,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.296296,
+                "ece": 0.444444,
+                "f1": 0.5,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.333333,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.407407,
+                "ece": 0.555556,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.351852,
+              "ece": 0.277778,
+              "f1": 0.4,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 0.333333,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.216598,
+                "ece": 0.447473,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.220307,
+                "ece": 0.429223,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.555556,
+              "brier_score": 0.218453,
+              "ece": 0.214782,
+              "f1": 0.666667,
+              "pr_auc": 0.588889,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.279058,
+                "ece": 0.515973,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.17044,
+                "ece": 0.378454,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.555556,
+              "brier_score": 0.224749,
+              "ece": 0.131445,
+              "f1": 0.666667,
+              "pr_auc": 0.588889,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          }
+        },
+        "COLOR_BRIGHTNESS_115": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.416254,
+                "ece": 0.605938,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.244383,
+                "ece": 0.340708,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.555556,
+              "brier_score": 0.330318,
+              "ece": 0.460552,
+              "f1": 0.666667,
+              "pr_auc": 0.588889,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.0,
+                "auroc": null,
+                "brier_score": 0.444444,
+                "ece": 0.666667,
+                "f1": 0.0,
+                "pr_auc": 1.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.407407,
+                "ece": 0.555556,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.333333,
+              "auroc": 0.333333,
+              "brier_score": 0.425926,
+              "ece": 0.388889,
+              "f1": 0.0,
+              "pr_auc": 0.5,
+              "precision": 0.0,
+              "recall": 0.0,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.276738,
+                "ece": 0.50504,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.248141,
+                "ece": 0.441046,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.555556,
+              "brier_score": 0.262439,
+              "ece": 0.402295,
+              "f1": 0.666667,
+              "pr_auc": 0.588889,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.337402,
+                "ece": 0.566905,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.197861,
+                "ece": 0.393471,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.555556,
+              "brier_score": 0.267631,
+              "ece": 0.480188,
+              "f1": 0.666667,
+              "pr_auc": 0.588889,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          }
+        },
+        "JPEG_Q75": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.348476,
+                "ece": 0.496939,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.1831,
+                "ece": 0.287165,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.265788,
+              "ece": 0.349771,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.296296,
+                "ece": 0.444444,
+                "f1": 0.5,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.333333,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.407407,
+                "ece": 0.555556,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.351852,
+              "ece": 0.277778,
+              "f1": 0.4,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 0.333333,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.238296,
+                "ece": 0.445824,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.203648,
+                "ece": 0.39917,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.220972,
+              "ece": 0.124261,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.290714,
+                "ece": 0.508792,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.159627,
+                "ece": 0.354509,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.22517,
+              "ece": 0.238603,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          }
+        },
+        "ORIGINAL": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.35874,
+                "ece": 0.523295,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.194015,
+                "ece": 0.300953,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.276377,
+              "ece": 0.324509,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.296296,
+                "ece": 0.444444,
+                "f1": 0.5,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.333333,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.407407,
+                "ece": 0.555556,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.351852,
+              "ece": 0.277778,
+              "f1": 0.4,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 0.333333,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.247296,
+                "ece": 0.462715,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.214257,
+                "ece": 0.412506,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.230776,
+              "ece": 0.271807,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.302749,
+                "ece": 0.526244,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.168125,
+                "ece": 0.366128,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.235437,
+              "ece": 0.22978,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          }
+        },
+        "RESIZED_075": {
+          "before": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.361052,
+                "ece": 0.528497,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.193387,
+                "ece": 0.299411,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.277219,
+              "ece": 0.321758,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "isotonic": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.333333,
+                "auroc": null,
+                "brier_score": 0.296296,
+                "ece": 0.444444,
+                "f1": 0.5,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.333333,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.407407,
+                "ece": 0.555556,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.5,
+              "auroc": 0.5,
+              "brier_score": 0.351852,
+              "ece": 0.277778,
+              "f1": 0.4,
+              "pr_auc": 0.5,
+              "precision": 0.5,
+              "recall": 0.333333,
+              "sample_count": 6
+            }
+          },
+          "platt": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.248977,
+                "ece": 0.465706,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.212919,
+                "ece": 0.409976,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.230948,
+              "ece": 0.270825,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          },
+          "temperature": {
+            "by_generator": {
+              "FLUX": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.304951,
+                "ece": 0.529271,
+                "f1": 0.8,
+                "pr_auc": 1.0,
+                "precision": 1.0,
+                "recall": 0.666667,
+                "sample_count": 3
+              },
+              "NONE": {
+                "accuracy": 0.666667,
+                "auroc": null,
+                "brier_score": 0.167093,
+                "ece": 0.364003,
+                "f1": 0.0,
+                "pr_auc": null,
+                "precision": 0.0,
+                "recall": 0.0,
+                "sample_count": 3
+              }
+            },
+            "overall": {
+              "accuracy": 0.666667,
+              "auroc": 0.666667,
+              "brier_score": 0.236022,
+              "ece": 0.227465,
+              "f1": 0.666667,
+              "pr_auc": 0.755556,
+              "precision": 0.666667,
+              "recall": 0.666667,
+              "sample_count": 6
+            }
+          }
+        }
+      }
+    }
+  },
+  "dataset": {
+    "actual_coverage": {
+      "datasets": [
+        "p2b2a-ditfake-mini"
+      ],
+      "generators": [
+        "FLUX"
+      ],
+      "real_sources": [
+        "COCO-referenced via DiTFake"
+      ]
+    },
+    "index_hash": "sha256:01babc8cc2b2650beba96c1969cba0bd95f5029279839240394d9378d9c7cf06",
+    "manifest_hash": "sha256:81505c1f7713257a2dcf0344c57fc9916b1d01ab2375afd279102434f0ce3a3b",
+    "name": "p2b2a-ditfake-mini",
+    "version": "ca9ea06c8f926c3a11ca4b657074cc7cbb99e5c7"
+  },
+  "encoder_comparison": {
+    "clip": {
+      "reason": "Checkpoint-specific licence and hash admission remain incomplete.",
+      "state": "not_run"
+    },
+    "dinov2": {
+      "reason": "No independently hash-pinned official checkpoint has been materialised in this research environment.",
+      "state": "not_run"
+    },
+    "efficientnet_b0": {
+      "checkpoint_sha256": "7f5810bc96def8f7552d5b7e68d53c4786f81167d28291b21c0d90e1fca14934",
+      "feature_dimension": 1280,
+      "state": "run"
+    }
+  },
+  "experiment_id": "p2b2b-permitted-robustness-efficientnet-v1",
+  "holdout_coverage": {
+    "dataset_holdout": {
+      "reason": "Only one approved fixture dataset is available.",
+      "state": "uncovered"
+    },
+    "generator_holdout": {
+      "reason": "Only FLUX is admitted; no SD/SDXL, Midjourney, DALL-E, or Imagen test generator.",
+      "state": "uncovered"
+    },
+    "transformation_holdout": {
+      "state": "run",
+      "uncovered": [
+        "SCREENSHOT",
+        "AI_EDITED"
+      ],
+      "variants": [
+        "ORIGINAL",
+        "JPEG_Q75",
+        "RESIZED_075",
+        "CENTER_CROP_080",
+        "COLOR_BRIGHTNESS_115"
+      ]
+    },
+    "unknown_generator": {
+      "reason": "No held-out generated source is admitted.",
+      "state": "uncovered"
+    }
+  },
+  "limitations": [
+    "Small, single-dataset/single-generator fixture; metrics are not generalization estimates.",
+    "Upstream source-rights and checkpoint licence review remain recorded governance constraints.",
+    "No cross-generator, cross-dataset, unknown-generator, screenshot, or AI-edit result is available.",
+    "No production API, real-world probability, attribution conclusion, or commercial metric is produced."
+  ],
+  "purpose": "research-only robustness and calibration mechanics on a restricted 24-image fixture; not a detection claim",
+  "reproducibility": {
+    "device": "cpu",
+    "git_revision": "3ec669bdde4b978eccce717b2cf4565d3d943614",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "preprocessing": "IMAGENET1K_V1 RGB resize-256 bicubic, center-crop-224, ImageNet normalization",
+    "python": "3.11.9",
+    "script_sha256": "3f2c8c00b6bc987a8d7e3abd5d3b9e89c0b2d8dff2d13fb4fa9ff1f821b91083",
+    "torch": "2.13.0+cpu",
+    "torchvision": "0.16.0+cpu",
+    "transform_parameters": {
+      "CENTER_CROP_080": "center, 0.80",
+      "COLOR_BRIGHTNESS_115": "Pillow brightness=1.15",
+      "JPEG_Q75": "quality=75, subsampling=0",
+      "RESIZED_075": "Lanczos, 0.75"
+    }
+  },
+  "timestamp_utc": "2026-07-27T06:53:17.549050+00:00"
+}

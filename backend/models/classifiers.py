@@ -84,6 +84,35 @@ class LinearLayerClassifier(LogisticRegressionClassifier):
     model_type = "linear_layer"
 
 
+class LinearSVMClassifier(LogisticRegressionClassifier):
+    """Small linear hinge-loss baseline; probabilities are margins mapped through sigmoid."""
+
+    model_type = "linear_svm"
+
+    def fit(self, features: Sequence[Sequence[float]], labels: Sequence[int]) -> "LinearSVMClassifier":
+        _validate_binary(features, labels)
+        self.standardizer.fit(features)
+        normalized = self.standardizer.transform(features)
+        weights = [0.0] * len(normalized[0])
+        bias = 0.0
+        for _ in range(self.epochs):
+            gradient = list(weights)
+            bias_gradient = 0.0
+            for row, label in zip(normalized, labels):
+                signed_label = 1.0 if label else -1.0
+                margin = signed_label * (sum(weight * value for weight, value in zip(weights, row)) + bias)
+                if margin < 1.0:
+                    for index, value in enumerate(row):
+                        gradient[index] -= signed_label * value
+                    bias_gradient -= signed_label
+            scale = self.learning_rate / len(normalized)
+            weights = [weight - scale * value for weight, value in zip(weights, gradient)]
+            bias -= scale * bias_gradient
+        self.weights = tuple(weights)
+        self.bias = bias
+        return self
+
+
 class TinyMLPClassifier:
     model_type = "tiny_mlp"
 
