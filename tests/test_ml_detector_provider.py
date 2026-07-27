@@ -15,6 +15,7 @@ from detection.providers.ml import MLDetectorProvider, ModelCalibrationRegistry,
 from detection.providers.ml import ScopeAttestationVerifier
 from deployment.key_provider import LocalTestKeyProvider
 from institutional_registry import ApprovalStatus, InstitutionalRegistry
+from institutional import Role
 
 
 HASH = "a" * 64
@@ -66,11 +67,12 @@ def _institutional_admission() -> InstitutionalRegistry:
     """A test-only Registry of Record admission for the P4-B fixture provider."""
     registry = InstitutionalRegistry(LocalTestKeyProvider(b"p4c-registry-key"))
     registry.register_provider("ml.fixture-efficientnet", "v1")
-    model = registry.create_model({"model_id": "fixture-efficientnet", "version": "v1", "architecture": "EfficientNet-B0 + linear logistic regression", "weight_hash": HASH, "source": "official-fixture-source", "license": "BSD-3-Clause", "training_data_reference": "licensed-fixture-dataset", "evaluation_reference": "experiments/p4b/fixture.json", "calibration_id": "cal.fixture.v1", "provider_id": "ml.fixture-efficientnet"}, "submitter")
-    calibration = registry.create_calibration({"calibration_id": "cal.fixture.v1", "model_id": "fixture-efficientnet", "dataset_reference": "licensed-fixture-validation", "method": "temperature_scaling", "metrics": {"ece": 0.1, "brier": 0.1}, "threshold": 0.5, "scope": ["JPEG_FILE", "ORIGINAL_CAPTURE_ATTESTED"], "limitations": ["Fixture calibration is test-only."]}, "submitter")
+    model = registry.create_model({"model_id": "fixture-efficientnet", "version": "v1", "architecture": "EfficientNet-B0 + linear logistic regression", "weight_hash": HASH, "source": "official-fixture-source", "license": "BSD-3-Clause", "training_data_reference": "licensed-fixture-dataset", "evaluation_reference": "experiments/p4b/fixture.json", "calibration_id": "cal.fixture.v1", "provider_id": "ml.fixture-efficientnet"}, "submitter", {Role.ANALYST})
+    calibration = registry.create_calibration({"calibration_id": "cal.fixture.v1", "model_id": "fixture-efficientnet", "dataset_reference": "licensed-fixture-validation", "method": "temperature_scaling", "metrics": {"ece": 0.1, "brier": 0.1}, "threshold": 0.5, "scope": ["JPEG_FILE", "ORIGINAL_CAPTURE_ATTESTED"], "limitations": ["Fixture calibration is test-only."]}, "submitter", {Role.ANALYST})
     for state in (ApprovalStatus.SUBMITTED, ApprovalStatus.VALIDATED, ApprovalStatus.REVIEWED, ApprovalStatus.APPROVED):
-        model = registry.transition(model.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "fixture review")
-        calibration = registry.transition(calibration.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "fixture review")
+        roles = {ApprovalStatus.SUBMITTED: {Role.ANALYST}, ApprovalStatus.VALIDATED: {Role.REVIEWER}, ApprovalStatus.REVIEWED: {Role.REVIEWER}, ApprovalStatus.APPROVED: {Role.ADMIN}}[state]
+        model = registry.transition(model.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "fixture review", roles)
+        calibration = registry.transition(calibration.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "fixture review", roles)
     registry.admit_provider("ml.fixture-efficientnet", "v1", model.record_hash, calibration.record_hash, ("JPEG_FILE", "ORIGINAL_CAPTURE_ATTESTED"))
     return registry
 

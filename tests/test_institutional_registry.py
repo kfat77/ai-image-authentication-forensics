@@ -9,6 +9,7 @@ from authentication.engine import _hash_payload
 from deployment.key_provider import LocalTestKeyProvider
 from detection.providers import MetadataProvider, ProviderRegistry, ProviderRegistryEntry
 from institutional_registry import ApprovalStatus, InstitutionalRegistry, verify_registry_record
+from institutional import Role
 
 
 H = "a" * 64
@@ -19,7 +20,7 @@ def _registry() -> InstitutionalRegistry:
 
 
 def _model_payload(provider_id="p1.metadata"):
-    return {"model_id": "m", "version": "v1", "architecture": "linear", "weight_hash": H, "source": "official", "license": "BSD", "training_data_reference": "dataset", "evaluation_reference": "evaluation", "calibration_id": "c1", "provider_id": provider_id}
+    return {"model_id": "m", "version": "v1", "architecture": "linear", "weight_hash": H, "source": "official", "license": "BSD", "training_data_reference": "dataset", "evaluation_reference": "evaluation", "calibration_id": "c1", "provider_id": provider_id, "details": {"revision": "initial"}}
 
 
 def _calibration_payload(model_id="m"):
@@ -28,13 +29,14 @@ def _calibration_payload(model_id="m"):
 
 def _advance(registry, record):
     for state in (ApprovalStatus.SUBMITTED, ApprovalStatus.VALIDATED, ApprovalStatus.REVIEWED, ApprovalStatus.APPROVED):
-        record = registry.transition(record.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "review recorded")
+        roles = {ApprovalStatus.SUBMITTED: {Role.ANALYST}, ApprovalStatus.VALIDATED: {Role.REVIEWER}, ApprovalStatus.REVIEWED: {Role.REVIEWER}, ApprovalStatus.APPROVED: {Role.ADMIN}}[state]
+        record = registry.transition(record.record_hash, state, "approver" if state == ApprovalStatus.APPROVED else "validator", "review recorded", roles)
     return record
 
 
 def _approved(registry, calibration_model_id="m"):
-    model = _advance(registry, registry.create_model(_model_payload(), "submitter"))
-    calibration = _advance(registry, registry.create_calibration(_calibration_payload(calibration_model_id), "submitter"))
+    model = _advance(registry, registry.create_model(_model_payload(), "submitter", {Role.ANALYST}))
+    calibration = _advance(registry, registry.create_calibration(_calibration_payload(calibration_model_id), "submitter", {Role.ANALYST}))
     return model, calibration
 
 
@@ -44,7 +46,7 @@ def _png():
 
 def test_approval_history_is_append_only_and_detects_tampering_and_deletion():
     registry = _registry()
-    draft = registry.create_model(_model_payload(), "submitter")
+    draft = registry.create_model(_model_payload(), "submitter", {Role.ANALYST})
     model = _advance(registry, draft)
     history = registry.approval_history(model.record_id)
     assert len(history) == 5 and registry.verify_approval_history(model.record_id)
@@ -54,10 +56,14 @@ def test_approval_history_is_append_only_and_detects_tampering_and_deletion():
     assert not registry.verify_approval_history(model.record_id, tampered)
     assert draft.record_hash in registry._records and model.record_hash in registry._records
     assert len([item for item in registry._records.values() if item.record_id == model.record_id]) == 5
+    with pytest.raises(TypeError, match="immutable"):
+        model.payload["source"] = "altered"
+    with pytest.raises(TypeError, match="immutable"):
+        model.payload["details"]["revision"] = "altered"
 
 
 def test_signature_covers_record_and_all_signature_metadata():
-    registry = _registry(); record = registry.create_model(_model_payload(), "submitter")
+    registry = _registry(); record = registry.create_model(_model_payload(), "submitter", {Role.ANALYST})
     keys = {record.signature.key_id: LocalTestKeyProvider(b"registry-test-key")}
     assert verify_registry_record(record, keys)
     assert not verify_registry_record(replace(record, payload={**record.payload, "source": "changed"}), keys)
@@ -79,6 +85,16 @@ def test_provider_admission_rejects_model_calibration_scope_and_provider_mismatc
         registry.admit_provider("p1.metadata", "v1", wrong_model.record_hash, wrong_calibration.record_hash, ("JPEG_FILE",))
     with pytest.raises(ValueError, match="not registered"):
         registry.admit_provider("unknown", "v1", model.record_hash, calibration.record_hash, ("JPEG_FILE",))
+
+
+def test_approval_requires_separated_roles_and_actors():
+    registry = _registry()
+    with pytest.raises(PermissionError, match="ANALYST"):
+        registry.create_model(_model_payload(), "submitter", {Role.REVIEWER})
+    draft = registry.create_model(_model_payload(), "submitter", {Role.ANALYST})
+    submitted = registry.transition(draft.record_hash, ApprovalStatus.SUBMITTED, "submitter", "submitted", {Role.ANALYST})
+    with pytest.raises(PermissionError, match="REVIEWER"):
+        registry.transition(submitted.record_hash, ApprovalStatus.VALIDATED, "submitter", "not authorized", {Role.ANALYST})
 
 
 def test_unverified_registry_hash_is_rejected_before_provider_admission():

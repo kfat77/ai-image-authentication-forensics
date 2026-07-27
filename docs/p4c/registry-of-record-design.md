@@ -1,6 +1,6 @@
 # Registry of Record
 
-The in-memory P4-C reference implementation maintains an append-only set of signed model/calibration revisions indexed by content hash, a current-revision pointer by stable record ID, append-only approval history, and signed provider-admission records. It is a governance seam, not a production approval service.
+The in-memory P4-C reference implementation maintains an append-only set of signed model/calibration revisions indexed by content hash, a current-revision pointer by stable record ID, append-only approval history, and signed provider-admission records. Record content is recursively immutable after signing; an attempted in-memory change raises an error and independently supplied altered content fails hash/signature verification. It is a governance seam, not a production approval service.
 
 An approved ML Provider is usable in an institutional report only through this chain:
 

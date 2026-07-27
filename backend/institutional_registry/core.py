@@ -10,6 +10,25 @@ from typing import Any, Literal
 from uuid import uuid4
 
 from deployment.key_provider import KeyProvider
+from institutional import Role, require_role
+
+
+class FrozenDict(dict):
+    """JSON-serializable, recursively immutable mapping for signed content."""
+    def __init__(self, value: dict[str, Any]) -> None:
+        dict.__init__(self)
+        for key, item in value.items():
+            dict.__setitem__(self, key, _freeze(item))
+
+    def _immutable(self, *_args, **_kwargs): raise TypeError("Signed Registry content is immutable.")
+    __setitem__ = __delitem__ = clear = pop = popitem = setdefault = update = _immutable
+
+
+def _freeze(value: Any) -> Any:
+    if isinstance(value, dict): return FrozenDict(value)
+    if isinstance(value, list): return tuple(_freeze(item) for item in value)
+    if isinstance(value, tuple): return tuple(_freeze(item) for item in value)
+    return value
 
 
 class ApprovalStatus(StrEnum):
@@ -109,17 +128,19 @@ class InstitutionalRegistry:
         if not provider_id or not provider_version: raise ValueError("Provider identity is required.")
         self._known_providers.add((provider_id, provider_version))
 
-    def create_model(self, payload: dict[str, Any], actor: str) -> RegistryRecord:
+    def create_model(self, payload: dict[str, Any], actor: str, actor_roles: set[Role]) -> RegistryRecord:
+        require_role(actor_roles, Role.ANALYST)
         required = {"model_id", "version", "architecture", "weight_hash", "source", "license", "training_data_reference", "evaluation_reference", "calibration_id", "provider_id"}
         if required - set(payload): raise ValueError("Model record is missing required fields.")
         return self._create("model", payload, actor)
 
-    def create_calibration(self, payload: dict[str, Any], actor: str) -> RegistryRecord:
+    def create_calibration(self, payload: dict[str, Any], actor: str, actor_roles: set[Role]) -> RegistryRecord:
+        require_role(actor_roles, Role.ANALYST)
         required = {"calibration_id", "model_id", "dataset_reference", "method", "metrics", "threshold", "scope", "limitations"}
         if required - set(payload): raise ValueError("Calibration record is missing required fields.")
         return self._create("calibration", payload, actor)
 
-    def transition(self, record_hash: str, status: ApprovalStatus, actor: str, reason: str) -> RegistryRecord:
+    def transition(self, record_hash: str, status: ApprovalStatus, actor: str, reason: str, actor_roles: set[Role]) -> RegistryRecord:
         record = self._records[record_hash]
         if self._current.get(record.record_id) != record_hash: raise ValueError("Only the current record revision may transition.")
         current = ApprovalStatus(record.payload["approval_status"])
@@ -127,6 +148,10 @@ class InstitutionalRegistry:
                    ApprovalStatus.VALIDATED: ApprovalStatus.REVIEWED, ApprovalStatus.REVIEWED: ApprovalStatus.APPROVED,
                    ApprovalStatus.APPROVED: ApprovalStatus.DEPRECATED}
         if allowed.get(current) != status: raise ValueError("Invalid approval workflow transition.")
+        required_role = {ApprovalStatus.SUBMITTED: Role.ANALYST, ApprovalStatus.VALIDATED: Role.REVIEWER,
+                         ApprovalStatus.REVIEWED: Role.REVIEWER, ApprovalStatus.APPROVED: Role.ADMIN,
+                         ApprovalStatus.DEPRECATED: Role.ADMIN}[status]
+        require_role(actor_roles, required_role)
         if status == ApprovalStatus.APPROVED and actor == record.payload["submitted_by"]:
             raise PermissionError("Submitter cannot approve the same record.")
         payload = {**record.payload, "approval_status": status, "approved_by": actor if status == ApprovalStatus.APPROVED else record.payload["approved_by"], "approval_reason": reason, "updated_at": _now()}
@@ -207,7 +232,7 @@ class InstitutionalRegistry:
     def _append_revision(self, record_id: str, record_type: Literal["model", "calibration"], payload: dict[str, Any], actor: str) -> RegistryRecord:
         content = {**payload, "record_id": record_id}
         digest = canonical_record_hash(record_type, content)
-        record = RegistryRecord(record_id, record_type, content, digest, self._signature(content, digest, actor))
+        record = RegistryRecord(record_id, record_type, FrozenDict(content), digest, self._signature(content, digest, actor))
         self._records[digest] = record; self._current[record_id] = digest
         return record
     def _append_event(self, record_id: str, previous: ApprovalStatus | None, new: ApprovalStatus, actor: str, reason: str) -> ApprovalEvent:
