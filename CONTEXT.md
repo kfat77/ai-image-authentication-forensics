@@ -49,3 +49,7 @@ This project contains two separate product capabilities: creative reconstruction
 - **Evidence fusion**: the reproducible application of declared rules to provenance, deterministic image observations, and an optional calibrated model-evidence record. Missing metadata is absence of evidence, not evidence of AI generation.
 - **Authentication report**: a hash-bound JSON/PDF package containing its input, tool versions, evidence, fusion rationale, limitations, and audit identifiers for human review.
 - **Audit trail entry**: the append-only record of submitter identity, analysis time, tool version, input hash, and output hash for an authentication report. It supports review; it does not prove identity or legal custody by itself.
+- **Model registry entry**: an approved or rejected record binding an authentication-support model to its source, weight hash, scope, evaluation and calibration references. It is not a claim that the model is suitable for every image.
+- **Calibration registry entry**: the scoped validation record that permits a named model version to influence an assessment only under declared conditions and exclusions.
+- **Case**: the institution-owned lifecycle record that binds an original file hash, frozen evidence bundle, analysis version, reviewers and signed final report. It is distinct from an API request.
+- **Audit event**: a hash-linked institutional event recording an actor action against a case. A local JSONL log is not an institutional audit chain.
